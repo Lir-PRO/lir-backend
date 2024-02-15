@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations.Schema;
+using Lir.Core.Models.Interfaces;
 
 namespace Lir.Core.Models
 {
-    public class User : IdentityUser<Guid>
+    public class User : IdentityUser<Guid>, IEntityBase
     {
         public string Username { get; set; }
         public string Name { get; set; }

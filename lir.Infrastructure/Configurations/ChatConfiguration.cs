@@ -13,6 +13,13 @@ namespace Lir.Infrastructure.Configurations
             builder.Property(c => c.Id)
                 .ValueGeneratedOnAdd();
 
+            builder.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            builder.Property(e => e.UpdatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .ValueGeneratedOnUpdate();
+
             // Navigation properties
             builder.HasMany(c => c.Messages)
                 .WithOne(m => m.Chat)

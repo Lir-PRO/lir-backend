@@ -19,6 +19,13 @@ namespace Lir.Infrastructure.Configurations
             builder.Property(c => c.Id)
                 .ValueGeneratedOnAdd();
 
+            builder.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            builder.Property(e => e.UpdatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .ValueGeneratedOnUpdate();
+
             builder.Property(c => c.ContentType)
                 .HasConversion(c => c.ToString(), c => Enum.Parse<ContentType>(c))
                 .IsRequired();
