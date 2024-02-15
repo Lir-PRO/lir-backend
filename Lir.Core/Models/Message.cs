@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Lir.Core.Models
 {
-    public class Message
+    public class Message : BaseEntity
     {
-        public Guid Id { get; set; }
         public string Content { get; set; }
 
         // Foreign keys

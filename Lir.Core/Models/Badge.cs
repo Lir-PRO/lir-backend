@@ -1,9 +1,8 @@
 ﻿
 namespace Lir.Core.Models
 {
-    public class Badge
+    public class Badge : BaseEntity
     {
-        public Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
 

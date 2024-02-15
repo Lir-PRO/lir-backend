@@ -13,6 +13,6 @@ namespace Lir.Core.Models
 
         // Navigation properties
         public Post Post { get; set; }
-        public Guid Category { get; set; }
+        public Category Category { get; set; }
     }
 }

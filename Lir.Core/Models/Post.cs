@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Lir.Core.Models
 {
-    public class Post
+    public class Post : BaseEntity
     {
-        public Guid Id { get; set; }
         public string Caption { get; set; }
 
         // Foreign keys

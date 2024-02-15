@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Mime;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Lir.Core.Enums;
 
 namespace Lir.Core.Models
 {
-    public class Content
+    public class Content : BaseEntity
     {
-        public Guid Id { get; set; }
         public ContentType ContentType { get; set; }
         public string ContentBase64 { get; set; }
 
