@@ -3,9 +3,9 @@ using Lir.Core.Models.Interfaces;
 
 namespace Lir.Core.Interfaces
 {
-    public interface IPostService : IEntityBaseRepository<Badge>
+    public interface IPostService : IEntityBaseRepository<Post>
     {
-        Task<IQueryable<Post>> GetPostsByUserIdAsync(Guid userId);
-        Task<IQueryable<Post>> GetPostsByCategoryIdAsync(Guid categoryId);
+        Task<IEnumerable<Post>> GetPostsByUserIdAsync(Guid userId);
+        Task<IEnumerable<Post>> GetPostsByCategoryIdAsync(Guid categoryId);
     }
 }
