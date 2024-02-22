@@ -22,8 +22,11 @@ builder.Services.AddTransient<IPostService, PostService>();
 builder.Services.AddTransient<ISubscriptionService, SubscriptionService>();
 builder.Services.AddTransient<IUserService, UserService>();
 
+builder.Services.AddGraphQLServer();
+
 var app = builder.Build();
 
 app.MapGet("/", () => "Hello World!");
+app.MapGraphQL();
 
 app.Run();
