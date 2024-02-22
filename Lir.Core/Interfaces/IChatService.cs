@@ -5,6 +5,6 @@ namespace Lir.Core.Interfaces
 {
     public interface IChatService : IEntityBaseRepository<Chat>
     {
-        Task<IQueryable<Chat>> GetChatsByUserIdAsync(Guid userId);
+        Task<IEnumerable<Chat>> GetChatsByUserIdAsync(Guid userId);
     }
 }
