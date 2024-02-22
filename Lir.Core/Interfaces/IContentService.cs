@@ -6,7 +6,7 @@ namespace Lir.Core.Interfaces
 {
     public interface IContentService : IEntityBaseRepository<Content>
     {
-        Task<IQueryable<Content>> GetContentsByContentTypeAsync(ContentType contentType);
-        Task<IQueryable<Content>> GetContentsByPostIdAsync(Guid postId);
+        Task<IEnumerable<Content>> GetContentsByContentTypeAsync(ContentType contentType);
+        Task<IEnumerable<Content>> GetContentsByPostIdAsync(Guid postId);
     }
 }
