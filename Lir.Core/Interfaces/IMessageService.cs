@@ -5,6 +5,6 @@ namespace Lir.Core.Interfaces
 {
     public interface IMessageService : IEntityBaseRepository<Message>
     {
-        Task<IQueryable<Message>> GetMessagesByChatIdAsync(Guid chatId);
+        Task<IEnumerable<Message>> GetMessagesByChatIdAsync(Guid chatId);
     }
 }
