@@ -5,10 +5,10 @@ namespace Lir.Core.Interfaces
 {
     public interface IUserService : IEntityBaseRepository<User>
     {
-        Task<IQueryable<User>> GetUsersByChatId(Guid chatId);
-        Task<IQueryable<User>> GetUsersByBadgeId(Guid badgeId);
-        Task<IQueryable<User>> GetSubscribersByUserId(Guid userId);
-        Task<IQueryable<User>> GetSubscriptionsByUserId(Guid userId);
+        Task<IEnumerable<User>> GetUsersByChatId(Guid chatId);
+        Task<IEnumerable<User>> GetUsersByBadgeId(Guid badgeId);
+        Task<IEnumerable<User>> GetSubscribersByUserId(Guid userId);
+        Task<IEnumerable<User>> GetSubscriptionsByUserId(Guid userId);
 
     }
 }
