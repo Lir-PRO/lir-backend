@@ -39,15 +39,6 @@ namespace Lir.Infrastructure.Persistence
             modelBuilder.Entity<IdentityUserLogin<Guid>>().HasKey(x => x.UserId);
             modelBuilder.Entity<IdentityUserRole<Guid>>().HasKey(x => x.UserId);
             modelBuilder.Entity<IdentityUserToken<Guid>>().HasKey(x => x.UserId);
-
-            modelBuilder.Entity<BaseEntity>()
-                .Property(e => e.CreatedAt)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-            modelBuilder.Entity<BaseEntity>()
-                .Property(e => e.UpdatedAt)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
-                .ValueGeneratedOnUpdate();
         }
 
         //User

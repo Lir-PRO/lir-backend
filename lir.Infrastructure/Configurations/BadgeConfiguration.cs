@@ -20,6 +20,13 @@ namespace Lir.Infrastructure.Configurations
             builder.Property(b => b.Description)
                 .HasMaxLength(1000);
 
+            builder.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            builder.Property(e => e.UpdatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .ValueGeneratedOnUpdate();
+
             // Navigation properties
             builder.HasMany(b => b.UserBadges)
                 .WithOne(ub => ub.Badge)

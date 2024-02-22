@@ -17,6 +17,13 @@ namespace Lir.Infrastructure.Configurations
                 .IsRequired()
                 .HasMaxLength(1000);
 
+            builder.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            builder.Property(e => e.UpdatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .ValueGeneratedOnUpdate();
+
             // Foreign keys
             builder.Property(m => m.UserId)
                 .IsRequired();

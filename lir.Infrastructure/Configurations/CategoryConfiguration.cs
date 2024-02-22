@@ -17,6 +17,13 @@ namespace Lir.Infrastructure.Configurations
                 .IsRequired()
                 .HasMaxLength(255);
 
+            builder.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            builder.Property(e => e.UpdatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .ValueGeneratedOnUpdate();
+
             // Navigation properties
             builder.HasMany(c => c.PostCategories)
                 .WithOne(pc => pc.Category)

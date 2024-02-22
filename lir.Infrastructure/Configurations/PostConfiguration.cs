@@ -14,6 +14,13 @@ namespace Lir.Infrastructure.Configurations
             builder.Property(p => p.Id)
                 .ValueGeneratedOnAdd();
 
+            builder.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            builder.Property(e => e.UpdatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .ValueGeneratedOnUpdate();
+
             // Foreign key
             builder.Property(p => p.UserId)
                 .IsRequired();
