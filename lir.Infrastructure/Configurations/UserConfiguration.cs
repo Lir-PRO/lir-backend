@@ -9,6 +9,8 @@ namespace Lir.Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
+            builder.HasKey(e => e.Id);
+
             builder.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
