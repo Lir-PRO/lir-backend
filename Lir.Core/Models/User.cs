@@ -1,15 +1,21 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations.Schema;
 using Lir.Core.Models.Interfaces;
+using Duende.IdentityServer;
 
 namespace Lir.Core.Models
 {
-    public class User : IdentityUser<Guid>, IEntityBase
+    public class User : IEntityBase
     {
+        public Guid Id { get; set; }
         public string Username { get; set; }
         public string Name { get; set; }
+        public string Email { get; set; }
+        public string PasswordHash { get; set; }
         public string Bio { get; set; }
         public string ProfilePictureBase64 { get; set; }
+        public string RefreshToken { get; set; }
+        public string RefershTokenExpiration { get; set; }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime CreatedAt { get; set; }
