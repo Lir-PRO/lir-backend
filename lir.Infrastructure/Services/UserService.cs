@@ -14,6 +14,16 @@ namespace Lir.Infrastructure.Services
             _context = context;
         }
 
+        public async Task<User> GetUserByEmailAsync(string email)
+        {
+            return await _context.Users.Where(u => u.Email == email).FirstOrDefaultAsync();
+        }
+
+        public async Task<User> GetUserByUsernameAsync(string username)
+        {
+            return await _context.Users.Where(u => u.Username == username).FirstOrDefaultAsync();
+        }
+
         public async Task<IEnumerable<User>> GetUsersByChatId(Guid chatId)
         {
             return await _context.UserChats.Where(uc => uc.ChatId == chatId).Select(uc => uc.User).ToListAsync();

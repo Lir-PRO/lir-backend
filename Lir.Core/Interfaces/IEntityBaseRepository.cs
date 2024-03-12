@@ -1,6 +1,7 @@
 ﻿using System.Linq.Expressions;
+using Lir.Core.Models.Interfaces;
 
-namespace Lir.Core.Models.Interfaces
+namespace Lir.Core.Interfaces
 {
     public interface IEntityBaseRepository<T> where T : class, IEntityBase, new()
     {

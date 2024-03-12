@@ -8,21 +8,16 @@ using Lir.Infrastructure.Configurations;
 
 namespace Lir.Infrastructure.Persistence
 {
-    public class LirDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
+    public class LirDbContext : DbContext
     {
         public LirDbContext(DbContextOptions<LirDbContext> options) : base(options)
         {
-
+            Database.SetCommandTimeout(20000);
         }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasPostgresExtension("uuid-ossp");
-
-            modelBuilder.Entity<User>()
-                       .HasBaseType<IdentityUser<Guid>>()
-                       .ToTable("User");
-
             modelBuilder.ApplyConfiguration(new PostCategoryConfiguration());
             modelBuilder.ApplyConfiguration(new UserBadgeConfiguration());
             modelBuilder.ApplyConfiguration(new UserChatConfiguration());
@@ -35,15 +30,13 @@ namespace Lir.Infrastructure.Persistence
             modelBuilder.ApplyConfiguration(new ChatConfiguration());
             modelBuilder.ApplyConfiguration(new CategoryConfiguration());
             modelBuilder.ApplyConfiguration(new BadgeConfiguration());
-
-            modelBuilder.Entity<IdentityUserLogin<Guid>>().HasKey(x => x.UserId);
-            modelBuilder.Entity<IdentityUserRole<Guid>>().HasKey(x => x.UserId);
-            modelBuilder.Entity<IdentityUserToken<Guid>>().HasKey(x => x.UserId);
+            modelBuilder.ApplyConfiguration(new UserRolesConfiguration());
         }
 
         //User
         public DbSet<User> Users { get; set; }
         public DbSet<Badge> Badges { get; set; }
+        public DbSet<UserRoles> UserRoles { get; set; }
         public DbSet<UserBadge> UserBadges { get; set; }
         public DbSet<UserSubscription> UserSubscriptions { get; set; }
 

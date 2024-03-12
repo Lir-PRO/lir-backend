@@ -9,12 +9,28 @@ namespace Lir.Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
+            builder.HasKey(e => e.Id);
+
             builder.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
             builder.Property(e => e.UpdatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .ValueGeneratedOnUpdate();
+
+            builder.Property(e => e.Bio)
+                .HasMaxLength(255)
+                .IsRequired(false);
+
+            builder.Property(e => e.Name)
+                .HasMaxLength(255)
+                .IsRequired(false);
+
+            builder.Property(e => e.ProfilePictureBase64)
+                .IsRequired(false);
+
+            builder.Property(e => e.RefreshToken)
+                .IsRequired(false);
 
             // Navigation properties
             builder.HasMany(u => u.Posts)

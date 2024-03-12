@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using Lir.Infrastructure.Persistence;
+using Lir.Core.Interfaces;
 
 namespace Lir.Infrastructure.Repositories.Base
 {
