@@ -18,6 +18,20 @@ namespace Lir.Infrastructure.Configurations
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .ValueGeneratedOnUpdate();
 
+            builder.Property(e => e.Bio)
+                .HasMaxLength(255)
+                .IsRequired(false);
+
+            builder.Property(e => e.Name)
+                .HasMaxLength(255)
+                .IsRequired(false);
+
+            builder.Property(e => e.ProfilePictureBase64)
+                .IsRequired(false);
+
+            builder.Property(e => e.RefreshToken)
+                .IsRequired(false);
+
             // Navigation properties
             builder.HasMany(u => u.Posts)
                 .WithOne(p => p.User)

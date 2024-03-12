@@ -15,7 +15,7 @@ namespace Lir.Core.Models
         public string Bio { get; set; }
         public string ProfilePictureBase64 { get; set; }
         public string RefreshToken { get; set; }
-        public string RefershTokenExpiration { get; set; }
+        public DateTime RefreshTokenExpiration { get; set; } = DateTime.UtcNow;
 
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime CreatedAt { get; set; }
