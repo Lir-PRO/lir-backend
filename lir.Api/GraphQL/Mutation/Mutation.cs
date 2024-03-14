@@ -82,5 +82,17 @@ namespace Lir.Api.GraphQL.Mutation
 
             return category;
         }
+
+        public async Task<Comment> AddComment(AddCommentInput input, [Service] ICommentService commentService)
+        {
+            var comment = new Comment()
+            {
+                UserId = input.UserId,
+                PostId = input.PostId,
+                Content = input.Content
+            };
+            await commentService.AddAsync(comment);
+            return comment;
+        }
     }
 }
