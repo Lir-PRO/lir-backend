@@ -1,5 +1,4 @@
 using Lir.Api.Authentication;
-using Lir.Api.GraphQL.InputTypes;
 using Lir.Api.GraphQL.Mutation;
 using Lir.Api.GraphQL.Query;
 using Lir.Core.Interfaces;
@@ -10,7 +9,13 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("Postgre");
+
 builder.Services.AddDbContextPool<LirDbContext>(options =>
+{
+    options.UseNpgsql(connectionString,
+        b => b.MigrationsAssembly("Lir.Infrastructure"));
+});
+builder.Services.AddPooledDbContextFactory<LirDbContext>(options =>
 {
     options.UseNpgsql(connectionString,
         b => b.MigrationsAssembly("Lir.Infrastructure"));
