@@ -9,6 +9,8 @@ namespace Lir.Core.Models
         [Key]
         public Guid Id { get; set; }
         public string Caption { get; set; }
+        public int Likes { get; set; } = 0;
+        public int Views { get; set; } = 0;
 
         // Foreign keys
         public Guid UserId { get; set; }
