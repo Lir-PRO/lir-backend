@@ -43,7 +43,9 @@ builder.Services.AddGraphQLServer()
     .AddMutationConventions()
     .AddQueryType<Query>()
     .AddMutationType<Mutation>()
-    .RegisterService<IAuthenticationService>();
+    .RegisterService<IAuthenticationService>()
+    .AddFiltering()
+    .AddSorting();
 
 var app = builder.Build();
 
