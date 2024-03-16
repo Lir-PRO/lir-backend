@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\lir.Core\Lir.Core.csproj" />
+  </ItemGroup>
+
 </Project>

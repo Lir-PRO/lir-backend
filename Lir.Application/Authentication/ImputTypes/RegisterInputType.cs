@@ -1,4 +1,4 @@
-﻿namespace Lir.Api.GraphQL.InputTypes
+﻿namespace Lir.Application.Authentication.ImputTypes
 {
     public class RegisterInputType
     {

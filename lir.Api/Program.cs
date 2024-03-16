@@ -1,6 +1,6 @@
-using Lir.Api.Authentication;
 using Lir.Api.GraphQL.Mutation;
 using Lir.Api.GraphQL.Query;
+using Lir.Application.Authentication;
 using Lir.Core.Interfaces;
 using Lir.Infrastructure.Persistence;
 using Lir.Infrastructure.Services;

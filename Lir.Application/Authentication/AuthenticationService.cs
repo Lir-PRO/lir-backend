@@ -1,16 +1,16 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
+using Lir.Application.Authentication.ImputTypes;
+using Lir.Application.Authentication.Payload;
 using Lir.Core.Interfaces;
 using Lir.Core.Models;
-using Lir.Api.GraphQL.InputTypes;
-using System.Text.RegularExpressions;
-using System.Security.Cryptography;
-using Lir.Api.GraphQL.Payload;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 
-namespace Lir.Api.Authentication
+namespace Lir.Application.Authentication
 {
     public class AuthenticationService : IAuthenticationService
     {
@@ -80,7 +80,7 @@ namespace Lir.Api.Authentication
             await _userService.AddAsync(newUser);
 
             var roles = new List<UserRoles>() { new UserRoles() { Name = "user" } };
-            var accessToken = GenerateAccessToken(newUser.Id.ToString(), newUser.Email, roles.Select(r => r.Name).ToList());
+            var accessToken = GenerateAccessToken(newUser.Id.ToString(), newUser.Email, roles.Select(r => r.Name).ToList<string>());
 
             var refreshToken = GenerateRefreshToken(newUser.Id.ToString(), newUser.Email);
 
@@ -172,13 +172,13 @@ namespace Lir.Api.Authentication
             }
 
             string emailRules = @"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?";
-            if (!Regex.IsMatch(registerInput.Email, emailRules))
+            if (!Regex.IsMatch((string)registerInput.Email, emailRules))
             {
                 return "Not a valid email";
             }
 
             string passwordRules = @"^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!*@#$%^&+=]).*$";
-            if (!Regex.IsMatch(registerInput.Password, passwordRules))
+            if (!Regex.IsMatch((string)registerInput.Password, passwordRules))
             {
                 return "Not a valid password";
             }

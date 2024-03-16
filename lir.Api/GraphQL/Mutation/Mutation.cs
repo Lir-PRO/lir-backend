@@ -1,6 +1,7 @@
-﻿using Lir.Api.Authentication;
-using Lir.Api.GraphQL.InputTypes;
-using Lir.Api.GraphQL.Payload;
+﻿using Lir.Api.GraphQL.InputTypes;
+using Lir.Application.Authentication;
+using Lir.Application.Authentication.ImputTypes;
+using Lir.Application.Authentication.Payload;
 using Lir.Core.Interfaces;
 using Lir.Core.Models;
 
