@@ -1,6 +1,6 @@
 ﻿namespace Lir.Application.Authentication.ImputTypes
 {
-    public class RegisterInputType
+    public class RegisterUserInput
     {
         public string Email { get; set; }
         public string Username { get; set; }

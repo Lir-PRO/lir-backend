@@ -25,7 +25,7 @@ namespace Lir.Application.Authentication
             _userService = userService;
         }
 
-        public async Task<LoginUserPayload> Login(LoginInputType loginInput)
+        public async Task<LoginUserPayload> Login(LoginUserInput loginInput)
         {
             var payload = new LoginUserPayload();
 
@@ -57,10 +57,10 @@ namespace Lir.Application.Authentication
             return payload;
         }
 
-        public async Task<RegisterUserPayload> Register(RegisterInputType registerInput)
+        public async Task<RegisterUserPayload> Register(RegisterUserInput registerUserInput)
         {
             var payload = new RegisterUserPayload();
-            string errorMessage = await RegistrationValidations(registerInput);
+            string errorMessage = await RegistrationValidations(registerUserInput);
 
             if (!string.IsNullOrEmpty(errorMessage))
             {
@@ -70,11 +70,11 @@ namespace Lir.Application.Authentication
 
             var newUser = new User
             {
-                Email = registerInput.Email,
-                Name = registerInput.Name,
-                Bio = registerInput.Bio,
-                Username = registerInput.Username,
-                PasswordHash = PasswordHash(registerInput.ConfirmPassword)
+                Email = registerUserInput.Email,
+                Name = registerUserInput.Name,
+                Bio = registerUserInput.Bio,
+                Username = registerUserInput.Username,
+                PasswordHash = PasswordHash(registerUserInput.ConfirmPassword)
             };
 
             await _userService.AddAsync(newUser);
@@ -141,44 +141,44 @@ namespace Lir.Application.Authentication
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        private async Task<string> RegistrationValidations(RegisterInputType registerInput)
+        private async Task<string> RegistrationValidations(RegisterUserInput registerUserInput)
         {
-            var user = await _userService.GetUserByEmailAsync(registerInput.Email);
+            var user = await _userService.GetUserByEmailAsync(registerUserInput.Email);
             if (user != null)
             {
                 return "Email is already in use";
             }
 
-            user = await _userService.GetUserByUsernameAsync(registerInput.Username);
+            user = await _userService.GetUserByUsernameAsync(registerUserInput.Username);
             if (user != null)
             {
                 return "Username is already in use";
 
             }
-            if (string.IsNullOrEmpty(registerInput.Email))
+            if (string.IsNullOrEmpty(registerUserInput.Email))
             {
                 return "Email can't be empty";
             }
 
-            if (string.IsNullOrEmpty(registerInput.Password)
-                || string.IsNullOrEmpty(registerInput.ConfirmPassword))
+            if (string.IsNullOrEmpty(registerUserInput.Password)
+                || string.IsNullOrEmpty(registerUserInput.ConfirmPassword))
             {
                 return "Password Or ConfirmPassword Can't be empty";
             }
 
-            if (registerInput.Password != registerInput.ConfirmPassword)
+            if (registerUserInput.Password != registerUserInput.ConfirmPassword)
             {
                 return "Invalid confirm password";
             }
 
             string emailRules = @"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?";
-            if (!Regex.IsMatch((string)registerInput.Email, emailRules))
+            if (!Regex.IsMatch((string)registerUserInput.Email, emailRules))
             {
                 return "Not a valid email";
             }
 
             string passwordRules = @"^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!*@#$%^&+=]).*$";
-            if (!Regex.IsMatch((string)registerInput.Password, passwordRules))
+            if (!Regex.IsMatch((string)registerUserInput.Password, passwordRules))
             {
                 return "Not a valid password";
             }

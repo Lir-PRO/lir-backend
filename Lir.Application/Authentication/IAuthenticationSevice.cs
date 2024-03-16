@@ -5,7 +5,7 @@ namespace Lir.Application.Authentication
 {
     public interface IAuthenticationService
     {
-        Task<LoginUserPayload> Login(LoginInputType input);
-        Task<RegisterUserPayload> Register(RegisterInputType input);
+        Task<LoginUserPayload> Login(LoginUserInput input);
+        Task<RegisterUserPayload> Register(RegisterUserInput userInput);
     }
 }

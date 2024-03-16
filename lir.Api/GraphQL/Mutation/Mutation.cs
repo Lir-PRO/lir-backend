@@ -9,28 +9,14 @@ namespace Lir.Api.GraphQL.Mutation
 {
     public class Mutation
     {
-        public async Task<LoginUserPayload> LoginUser(string email, string password, IAuthenticationService authenticationService)
+        public async Task<LoginUserPayload> LoginUser(LoginUserInput input, IAuthenticationService authenticationService)
         {
-            var input = new LoginInputType()
-            {
-                Email = email,
-                Password = password
-            };
             return await authenticationService.Login(input);
         }
 
-        public async Task<RegisterUserPayload> RegisterUser(string email, string username, string name, string bio, string password, string passwordConfirmation, IAuthenticationService authenticationService)
+        public async Task<RegisterUserPayload> RegisterUser(RegisterUserInput userInput, IAuthenticationService authenticationService)
         {
-            var input = new RegisterInputType()
-            {
-                Email = email,
-                Name = name,
-                Username = username,
-                Password = password,
-                Bio = bio,
-                ConfirmPassword = passwordConfirmation
-            };
-            return await authenticationService.Register(input);
+            return await authenticationService.Register(userInput);
         }
 
         public async Task<Post> AddPost(AddPostInput input,
@@ -94,6 +80,21 @@ namespace Lir.Api.GraphQL.Mutation
             };
             await commentService.AddAsync(comment);
             return comment;
+        }
+
+        public async Task DeletePost(Guid postId, [Service] IPostService postService)
+        {
+            await postService.DeleteAsync(postId);
+        }
+
+        public async Task DeleteComment(Guid commentId, [Service] ICommentService commentService)
+        {
+            await commentService.DeleteAsync(commentId);
+        }
+
+        public async Task DeleteCategory(Guid categoryId, [Service] ICategoryService categoryService)
+        {
+            await categoryService.DeleteAsync(categoryId);
         }
     }
 }
