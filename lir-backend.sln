@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lir.Api", "Lir.Api\Lir.Api.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lir.Core", "Lir.Core\Lir.Core.csproj", "{A08F5C89-97B9-4409-A75C-8E7B2D47F3D5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lir.Infrastructure", "lir.Infrastructure\Lir.Infrastructure.csproj", "{644A3252-B3C8-4F6B-B957-2353BAD2974D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lir.Infrastructure", "Lir.Infrastructure\Lir.Infrastructure.csproj", "{644A3252-B3C8-4F6B-B957-2353BAD2974D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lir.Application", "Lir.Application\Lir.Application.csproj", "{1D2FDA6E-C38C-49D2-999D-F6CC419CCDCE}"
 EndProject
