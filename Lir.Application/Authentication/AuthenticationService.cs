@@ -1,16 +1,16 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
+using Lir.Application.Authentication.ImputTypes;
+using Lir.Application.Authentication.Payload;
 using Lir.Core.Interfaces;
 using Lir.Core.Models;
-using Lir.Api.GraphQL.InputTypes;
-using System.Text.RegularExpressions;
-using System.Security.Cryptography;
-using Lir.Api.GraphQL.Payload;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 
-namespace Lir.Api.Authentication
+namespace Lir.Application.Authentication
 {
     public class AuthenticationService : IAuthenticationService
     {
@@ -25,7 +25,7 @@ namespace Lir.Api.Authentication
             _userService = userService;
         }
 
-        public async Task<LoginUserPayload> Login(LoginInputType loginInput)
+        public async Task<LoginUserPayload> Login(LoginUserInput loginInput)
         {
             var payload = new LoginUserPayload();
 
@@ -57,10 +57,10 @@ namespace Lir.Api.Authentication
             return payload;
         }
 
-        public async Task<RegisterUserPayload> Register(RegisterInputType registerInput)
+        public async Task<RegisterUserPayload> Register(RegisterUserInput registerUserInput)
         {
             var payload = new RegisterUserPayload();
-            string errorMessage = await RegistrationValidations(registerInput);
+            string errorMessage = await RegistrationValidations(registerUserInput);
 
             if (!string.IsNullOrEmpty(errorMessage))
             {
@@ -70,17 +70,17 @@ namespace Lir.Api.Authentication
 
             var newUser = new User
             {
-                Email = registerInput.Email,
-                Name = registerInput.Name,
-                Bio = registerInput.Bio,
-                Username = registerInput.Username,
-                PasswordHash = PasswordHash(registerInput.ConfirmPassword)
+                Email = registerUserInput.Email,
+                Name = registerUserInput.Name,
+                Bio = registerUserInput.Bio,
+                Username = registerUserInput.Username,
+                PasswordHash = PasswordHash(registerUserInput.ConfirmPassword)
             };
 
             await _userService.AddAsync(newUser);
 
             var roles = new List<UserRoles>() { new UserRoles() { Name = "user" } };
-            var accessToken = GenerateAccessToken(newUser.Id.ToString(), newUser.Email, roles.Select(r => r.Name).ToList());
+            var accessToken = GenerateAccessToken(newUser.Id.ToString(), newUser.Email, roles.Select(r => r.Name).ToList<string>());
 
             var refreshToken = GenerateRefreshToken(newUser.Id.ToString(), newUser.Email);
 
@@ -141,44 +141,44 @@ namespace Lir.Api.Authentication
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        private async Task<string> RegistrationValidations(RegisterInputType registerInput)
+        private async Task<string> RegistrationValidations(RegisterUserInput registerUserInput)
         {
-            var user = await _userService.GetUserByEmailAsync(registerInput.Email);
+            var user = await _userService.GetUserByEmailAsync(registerUserInput.Email);
             if (user != null)
             {
                 return "Email is already in use";
             }
 
-            user = await _userService.GetUserByUsernameAsync(registerInput.Username);
+            user = await _userService.GetUserByUsernameAsync(registerUserInput.Username);
             if (user != null)
             {
                 return "Username is already in use";
 
             }
-            if (string.IsNullOrEmpty(registerInput.Email))
+            if (string.IsNullOrEmpty(registerUserInput.Email))
             {
                 return "Email can't be empty";
             }
 
-            if (string.IsNullOrEmpty(registerInput.Password)
-                || string.IsNullOrEmpty(registerInput.ConfirmPassword))
+            if (string.IsNullOrEmpty(registerUserInput.Password)
+                || string.IsNullOrEmpty(registerUserInput.ConfirmPassword))
             {
                 return "Password Or ConfirmPassword Can't be empty";
             }
 
-            if (registerInput.Password != registerInput.ConfirmPassword)
+            if (registerUserInput.Password != registerUserInput.ConfirmPassword)
             {
                 return "Invalid confirm password";
             }
 
             string emailRules = @"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?";
-            if (!Regex.IsMatch(registerInput.Email, emailRules))
+            if (!Regex.IsMatch((string)registerUserInput.Email, emailRules))
             {
                 return "Not a valid email";
             }
 
             string passwordRules = @"^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!*@#$%^&+=]).*$";
-            if (!Regex.IsMatch(registerInput.Password, passwordRules))
+            if (!Regex.IsMatch((string)registerUserInput.Password, passwordRules))
             {
                 return "Not a valid password";
             }

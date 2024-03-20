@@ -1,5 +1,4 @@
 ﻿using Lir.Core.Models;
-using Lir.Core.Models.Interfaces;
 
 namespace Lir.Core.Interfaces
 {
@@ -7,5 +6,6 @@ namespace Lir.Core.Interfaces
     {
         Task<IEnumerable<Post>> GetPostsByUserIdAsync(Guid userId);
         Task<IEnumerable<Post>> GetPostsByCategoryIdAsync(Guid categoryId);
+        Task<Post> GetPostByIdAsync(Guid postId);
     }
 }

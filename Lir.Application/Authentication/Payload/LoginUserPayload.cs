@@ -1,6 +1,6 @@
 ﻿using Lir.Core.Models;
 
-namespace Lir.Api.GraphQL.Payload
+namespace Lir.Application.Authentication.Payload
 {
     public class LoginUserPayload
     {

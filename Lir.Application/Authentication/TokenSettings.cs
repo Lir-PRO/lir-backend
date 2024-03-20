@@ -1,4 +1,4 @@
-﻿namespace Lir.Api.Authentication
+﻿namespace Lir.Application.Authentication
 {
     public class TokenSettings
     {
