@@ -58,6 +58,49 @@ namespace Lir.Api.GraphQL.Mutation
             return post;
         }
 
+        public async Task<Post> UpdatePost(UpdatePostInput input,
+            [Service] IPostService postService,
+            [Service] IContentService contentService,
+            [Service] IPostCategoryService postCategoryService)
+        {
+            var post = await postService.GetPostByIdAsync(input.PostId);
+            post.Caption = input.Caption;
+            foreach (var postCategory in post.PostCategories)
+            { 
+                postCategoryService.Delete(postCategory);
+            }
+
+            foreach (var categoryId in input.CategoryIds)
+            {
+                var postCategory = new PostCategory()
+                {
+                    PostId = post.Id,
+                    CategoryId = categoryId,
+                };
+                await postCategoryService.AddAsync(postCategory);
+            }
+
+            foreach (var content in post.Contents)
+            {
+                await contentService.DeleteAsync(content.Id);
+            }
+
+            foreach (var contentInput in input.ContentInputs)
+            {
+                var content = new Content()
+                {
+                    PostId = post.Id,
+                    ContentBase64 = contentInput.ContentBase64,
+                    ContentType = contentInput.ContentType
+                };
+
+                await contentService.AddAsync(content);
+            }
+
+            await postService.UpdateAsync(post.Id, post);
+            return post;
+        }
+
         public async Task<Category> AddCategory(string name, string description, [Service] ICategoryService categoryService)
         {
             var category = new Category()
@@ -66,6 +109,17 @@ namespace Lir.Api.GraphQL.Mutation
                 Description = description
             };
             await categoryService.AddAsync(category);
+
+            return category;
+        }
+
+        public async Task<Category> UpdateCategory(Guid categoryId, string name, string description, [Service] ICategoryService categoryService)
+        {
+            var category = await categoryService.GetByIdAsync(categoryId);
+            category.Name = name;
+            category.Description = description;
+
+            await categoryService.UpdateAsync(categoryId, category);
 
             return category;
         }
@@ -82,6 +136,17 @@ namespace Lir.Api.GraphQL.Mutation
             return comment;
         }
 
+        public async Task<Comment> UpdateComment(UpdateCommentInput input, [Service] ICommentService commentService)
+        {
+            var comment = await commentService.GetByIdAsync(input.CommentId);
+            comment.Content = input.Content;
+
+            await commentService.UpdateAsync(input.CommentId, comment);
+
+            return comment;
+        }
+
+
         public async Task DeletePost(Guid postId, [Service] IPostService postService)
         {
             await postService.DeleteAsync(postId);
@@ -95,6 +160,6 @@ namespace Lir.Api.GraphQL.Mutation
         public async Task DeleteCategory(Guid categoryId, [Service] ICategoryService categoryService)
         {
             await categoryService.DeleteAsync(categoryId);
-        }
+        } 
     }
 }

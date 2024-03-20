@@ -45,5 +45,14 @@ namespace Lir.Api.GraphQL.Query
                 .Select(pc => pc.Post).AsQueryable();
         }
 
+        [UseDbContext(typeof(LirDbContext))]
+        [UsePaging(IncludeTotalCount = true)]
+        [UseFiltering]
+        [UseSorting]
+        public IQueryable<Post> GetPostsByUserId(Guid userId, [Service] LirDbContext context)
+        {
+            return context.Posts.Where(p => p.UserId == userId)
+                .AsQueryable();
+        }
     }
 }

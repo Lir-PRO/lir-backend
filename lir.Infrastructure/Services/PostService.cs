@@ -24,5 +24,11 @@ namespace Lir.Infrastructure.Services
             return await _context.PostCategories.Where(pc => pc.CategoryId == categoryId)
                 .Select(pc => pc.Post).ToListAsync();
         }
+
+        public async Task<Post> GetPostByIdAsync(Guid postId)
+        {
+            return await _context.Posts.Where(c => c.Id == postId).Include(p => p.Contents)
+                .Include(p => p.PostCategories).ThenInclude(pc => pc.Category).FirstOrDefaultAsync();
+        }
     }
 }

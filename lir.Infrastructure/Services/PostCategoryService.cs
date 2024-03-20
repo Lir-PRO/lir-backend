@@ -20,9 +20,10 @@ namespace Lir.Infrastructure.Services
             return postCategory;
         }
 
-        public void Delete(PostCategory postCategory)
+        public async void Delete(PostCategory postCategory)
         {
             _context.PostCategories.Remove(postCategory);
+            await _context.SaveChangesAsync();
         }
     }
 }
