@@ -30,7 +30,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Lir.Application\Lir.Application.csproj" />
-    <ProjectReference Include="..\lir.Core\Lir.Core.csproj" />
+    <ProjectReference Include="..\Lir.Core\Lir.Core.csproj" />
     <ProjectReference Include="..\lir.Infrastructure\Lir.Infrastructure.csproj" />
   </ItemGroup>
 

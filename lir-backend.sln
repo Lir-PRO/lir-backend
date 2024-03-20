@@ -5,7 +5,7 @@ VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lir.Api", "Lir.Api\Lir.Api.csproj", "{392E5501-254C-45BD-8E32-49808A890B7D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lir.Core", "lir.Core\Lir.Core.csproj", "{A08F5C89-97B9-4409-A75C-8E7B2D47F3D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lir.Core", "Lir.Core\Lir.Core.csproj", "{A08F5C89-97B9-4409-A75C-8E7B2D47F3D5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lir.Infrastructure", "lir.Infrastructure\Lir.Infrastructure.csproj", "{644A3252-B3C8-4F6B-B957-2353BAD2974D}"
 EndProject

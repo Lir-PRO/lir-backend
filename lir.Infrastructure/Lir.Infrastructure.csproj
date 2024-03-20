@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\lir.Core\Lir.Core.csproj" />
+    <ProjectReference Include="..\Lir.Core\Lir.Core.csproj" />
   </ItemGroup>
 
 </Project>
