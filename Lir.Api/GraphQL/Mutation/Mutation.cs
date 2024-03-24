@@ -146,7 +146,6 @@ namespace Lir.Api.GraphQL.Mutation
             return comment;
         }
 
-
         public async Task DeletePost(Guid postId, [Service] IPostService postService)
         {
             await postService.DeleteAsync(postId);
@@ -160,6 +159,24 @@ namespace Lir.Api.GraphQL.Mutation
         public async Task DeleteCategory(Guid categoryId, [Service] ICategoryService categoryService)
         {
             await categoryService.DeleteAsync(categoryId);
-        } 
+        }
+
+        public async Task<Message> SendMessage(SendMessageInput input,
+            [Service] IMessageService messageService)
+        {
+            var message = new Message()
+            {
+                UserId = input.SenderId,
+                ChatId = input.ChatId,
+                Content = input.Content
+            };
+            await messageService.AddAsync(message);
+            return message;
+        }
+
+        public async Task<Chat> AddChat(List<Guid> participantsIds, [Service] IChatService chatService)
+        {
+            return await chatService.AddChatAsync(participantsIds);
+        }
     }
 }
