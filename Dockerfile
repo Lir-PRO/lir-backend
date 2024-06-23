@@ -5,6 +5,7 @@ EXPOSE 8081
 
 COPY . ./src
 RUN ls ./src
+RUN ls ./src
 
 WORKDIR /lir-backend/src
 RUN dotnet build
