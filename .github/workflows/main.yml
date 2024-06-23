@@ -32,4 +32,4 @@ jobs:
           script: |
             docker pull mariiaprylutska/lir_backend 
             cd lir_backend
-            docker-compose restart
+            docker-compose up -d
