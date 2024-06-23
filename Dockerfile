@@ -4,6 +4,7 @@ EXPOSE 8080
 EXPOSE 8081
 
 COPY . ./src
+COPY ./lir.Infrastructure ./src/Lir.Infrastructure
 RUN ls ./src
 RUN ls ./src
 
