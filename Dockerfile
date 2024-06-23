@@ -7,6 +7,8 @@ COPY . ./src
 RUN ls ./src
 
 WORKDIR /lir-backend/src
+RUN dotnet build
+RUN dotnet restore
 
 RUN dotnet publish -c Release -o out
 
