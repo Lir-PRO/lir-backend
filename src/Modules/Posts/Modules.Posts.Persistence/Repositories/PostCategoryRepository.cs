@@ -1,13 +1,13 @@
 ﻿using Modules.Posts.Domain.Entities;
 using Modules.Posts.Domain.Interfaces;
 
-namespace Modules.Posts.Persistence.Services
+namespace Modules.Posts.Persistence.Repositories
 {
-    public class PostCategoryService : IPostCategoryService
+    public class PostCategoryRepository : IPostCategoryRepository
     {
         private readonly PostContext _context;
 
-        public PostCategoryService(PostContext context)
+        public PostCategoryRepository(PostContext context)
         {
             _context = context;
         }

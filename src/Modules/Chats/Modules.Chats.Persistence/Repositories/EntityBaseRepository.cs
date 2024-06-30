@@ -1,15 +1,15 @@
 ﻿using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Modules.Posts.Domain.Common;
-using Modules.Posts.Domain.Interfaces;
+using Modules.Chats.Domain.Common;
+using Modules.Chats.Domain.Interfaces;
 
-namespace Modules.Posts.Persistence.Services
+namespace Modules.Chats.Persistence.Repositories
 {
     public class EntityBaseRepository<T> : IEntityBaseRepository<T> where T : class, IEntityBase, new()
     {
-        private readonly PostContext _context;
-        public EntityBaseRepository(PostContext context)
+        private readonly ChatContext _context;
+        public EntityBaseRepository(ChatContext context)
         {
             _context = context;
         }

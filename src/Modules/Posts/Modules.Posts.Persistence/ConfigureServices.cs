@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Modules.Posts.Domain.Interfaces;
-using Modules.Posts.Persistence.Services;
+using Modules.Posts.Persistence.Repositories;
 
 namespace Modules.Posts.Persistence
 {
@@ -13,11 +13,11 @@ namespace Modules.Posts.Persistence
             services.AddDbContext<PostContext>(options =>
                 options.UseNpgsql(configuration.GetConnectionString("Postgre")));
 
-            services.AddScoped<IPostService, PostService>();
-            services.AddScoped<ICommentService, CommentService>();
-            services.AddScoped<IContentService, ContentService>();
-            services.AddScoped<ICategoryService, CategoryService>();
-            services.AddScoped<IPostCategoryService, PostCategoryService>();
+            services.AddScoped<IPostRepository, PostRepository>();
+            services.AddScoped<ICommentRepository, CommentRepository>();
+            services.AddScoped<IContentRepository, ContentRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IPostCategoryRepository, PostCategoryRepository>();
 
             return services;
         }

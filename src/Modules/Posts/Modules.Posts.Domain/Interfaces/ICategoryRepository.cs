@@ -2,7 +2,7 @@
 
 namespace Modules.Posts.Domain.Interfaces
 {
-    public interface ICategoryService : IEntityBaseRepository<Category>
+    public interface ICategoryRepository : IEntityBaseRepository<Category>
     {
     }
 }

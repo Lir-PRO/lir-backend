@@ -2,7 +2,7 @@
 
 namespace Modules.Posts.Domain.Interfaces
 {
-    public interface IPostCategoryService
+    public interface IPostCategoryRepository
     {
         Task<PostCategory> AddAsync(PostCategory postCategory);
         void Delete(PostCategory postCategory);

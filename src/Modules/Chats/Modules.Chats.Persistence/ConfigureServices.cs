@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Modules.Chats.Domain.Interfaces;
-using Modules.Chats.Persistence.Services;
+using Modules.Chats.Persistence.Repositories;
 
 namespace Modules.Chats.Persistence
 {
@@ -13,8 +13,8 @@ namespace Modules.Chats.Persistence
             services.AddDbContext<ChatContext>(options =>
                 options.UseNpgsql(configuration.GetConnectionString("Postgre")));
 
-            services.AddScoped<IChatService, ChatService>();
-            services.AddScoped<IMessageService, MessageService>();
+            services.AddScoped<IChatRepository, ChatRepository>();
+            services.AddScoped<IMessageRepository, MessageRepository>();
 
             return services;
         }

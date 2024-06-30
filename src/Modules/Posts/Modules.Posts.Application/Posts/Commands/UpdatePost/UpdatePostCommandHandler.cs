@@ -8,25 +8,25 @@ namespace Modules.Posts.Application.Posts.Commands.UpdatePost
 {
     public class UpdatePostCommandHandler : IRequestHandler<UpdatePostCommand, PostPayload>
     {
-        private readonly IPostService _postService;
-        private readonly IContentService _contentService;
-        private readonly IPostCategoryService _postCategoryService;
+        private readonly IPostRepository _postRepository;
+        private readonly IContentRepository _contentRepository;
+        private readonly IPostCategoryRepository _postCategoryRepository;
         private readonly IMapper _mapper;
 
-        public UpdatePostCommandHandler(IMapper mapper, IPostCategoryService postCategoryService, IContentService contentService, IPostService postService)
+        public UpdatePostCommandHandler(IMapper mapper, IPostCategoryRepository postCategoryRepository, IContentRepository contentRepository, IPostRepository postRepository)
         {
             _mapper = mapper;
-            _postCategoryService = postCategoryService;
-            _contentService = contentService;
-            _postService = postService;
+            _postCategoryRepository = postCategoryRepository;
+            _contentRepository = contentRepository;
+            _postRepository = postRepository;
         }
         public async Task<PostPayload> Handle(UpdatePostCommand request, CancellationToken cancellationToken)
         {
-            var post = await _postService.GetPostByIdAsync(request.Input.PostId);
+            var post = await _postRepository.GetPostByIdAsync(request.Input.PostId);
             post.Caption = request.Input.Caption;
             foreach (var postCategory in post.PostCategories)
             {
-                _postCategoryService.Delete(postCategory);
+                _postCategoryRepository.Delete(postCategory);
             }
 
             foreach (var categoryId in request.Input.CategoryIds)
@@ -36,12 +36,12 @@ namespace Modules.Posts.Application.Posts.Commands.UpdatePost
                     PostId = post.Id,
                     CategoryId = categoryId,
                 };
-                await _postCategoryService.AddAsync(postCategory);
+                await _postCategoryRepository.AddAsync(postCategory);
             }
 
             foreach (var content in post.Contents)
             {
-                await _contentService.DeleteAsync(content.Id);
+                await _contentRepository.DeleteAsync(content.Id);
             }
 
             foreach (var contentInput in request.Input.ContentInputs)
@@ -53,10 +53,10 @@ namespace Modules.Posts.Application.Posts.Commands.UpdatePost
                     ContentType = contentInput.ContentType
                 };
 
-                await _contentService.AddAsync(content);
+                await _contentRepository.AddAsync(content);
             }
 
-            await _postService.UpdateAsync(post.Id, post);
+            await _postRepository.UpdateAsync(post.Id, post);
             return _mapper.Map<PostPayload>(post);
         }
     }

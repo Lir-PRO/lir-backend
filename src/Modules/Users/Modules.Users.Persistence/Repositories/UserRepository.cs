@@ -2,12 +2,12 @@
 using Modules.Users.Domain.Entities;
 using Modules.Users.Domain.Interfaces;
 
-namespace Modules.Users.Persistence.Services
+namespace Modules.Users.Persistence.Repositories
 {
-    public class UserService : IUserService
+    public class UserRepository : IUserRepository
     {
         private readonly UserContext _context;
-        public UserService(UserContext context)
+        public UserRepository(UserContext context)
         {
             _context = context;
         }

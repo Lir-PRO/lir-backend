@@ -3,12 +3,12 @@ using Modules.Posts.Domain.Entities;
 using Modules.Posts.Domain.Enums;
 using Modules.Posts.Domain.Interfaces;
 
-namespace Modules.Posts.Persistence.Services
+namespace Modules.Posts.Persistence.Repositories
 {
-    public class ContentService : EntityBaseRepository<Content>, IContentService
+    public class ContentRepository : EntityBaseRepository<Content>, IContentRepository
     {
         private readonly PostContext _context;
-        public ContentService(PostContext context) : base(context)
+        public ContentRepository(PostContext context) : base(context)
         {
             _context = context;
         }

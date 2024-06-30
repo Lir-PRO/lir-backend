@@ -2,7 +2,7 @@
 
 namespace Modules.Posts.Domain.Interfaces
 {
-    public interface IPostService : IEntityBaseRepository<Post>
+    public interface IPostRepository : IEntityBaseRepository<Post>
     {
         Task<IEnumerable<Post>> GetPostsByUserIdAsync(string userId);
         Task<IEnumerable<Post>> GetPostsByCategoryIdAsync(Guid categoryId);

@@ -2,12 +2,12 @@
 using Modules.Chats.Domain.Entities;
 using Modules.Chats.Domain.Interfaces;
 
-namespace Modules.Chats.Persistence.Services
+namespace Modules.Chats.Persistence.Repositories
 {
-    public class MessageService : EntityBaseRepository<Message>, IMessageService
+    public class MessageRepository : EntityBaseRepository<Message>, IMessageRepository
     {
         private readonly ChatContext _context;
-        public MessageService(ChatContext context) : base(context)
+        public MessageRepository(ChatContext context) : base(context)
         {
             _context = context;
         }

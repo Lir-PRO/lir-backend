@@ -2,13 +2,13 @@
 using Modules.Users.Domain.Entities;
 using Modules.Users.Domain.Interfaces;
 
-namespace Modules.Users.Persistence.Services
+namespace Modules.Users.Persistence.Repositories
 {
-    public class SubscriptionService : ISubscriptionService
+    public class SubscriptionRepository : ISubscriptionRepository
     {
         private readonly UserContext _context;
 
-        public SubscriptionService(UserContext context)
+        public SubscriptionRepository(UserContext context)
         {
             _context = context;
         }

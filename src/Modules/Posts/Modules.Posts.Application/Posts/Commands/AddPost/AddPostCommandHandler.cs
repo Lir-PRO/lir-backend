@@ -8,16 +8,16 @@ namespace Modules.Posts.Application.Posts.Commands.AddPost
 {
     public class AddPostCommandHandler : IRequestHandler<AddPostCommand, PostPayload>
     {
-        private readonly IPostService _postService;
-        private readonly IContentService _contentService;
-        private readonly IPostCategoryService _postCategoryService; 
+        private readonly IPostRepository _postRepository;
+        private readonly IContentRepository _contentRepository;
+        private readonly IPostCategoryRepository _postCategoryRepository; 
         private readonly IMapper _mapper;
 
-        public AddPostCommandHandler(IPostCategoryService postCategoryService, IContentService contentService, IPostService postService, IMapper mapper)
+        public AddPostCommandHandler(IPostCategoryRepository postCategoryRepository, IContentRepository contentRepository, IPostRepository postRepository, IMapper mapper)
         {
-            _postCategoryService = postCategoryService;
-            _contentService = contentService;
-            _postService = postService;
+            _postCategoryRepository = postCategoryRepository;
+            _contentRepository = contentRepository;
+            _postRepository = postRepository;
             _mapper = mapper;
         }
 
@@ -29,7 +29,7 @@ namespace Modules.Posts.Application.Posts.Commands.AddPost
                 Caption = request.Input.Caption
             };
 
-            await _postService.AddAsync(post);
+            await _postRepository.AddAsync(post);
 
             foreach (var categoryId in request.Input.CategoryIds)
             {
@@ -38,7 +38,7 @@ namespace Modules.Posts.Application.Posts.Commands.AddPost
                     PostId = post.Id,
                     CategoryId = categoryId
                 };
-                await _postCategoryService.AddAsync(postCategory);
+                await _postCategoryRepository.AddAsync(postCategory);
             }
 
             foreach (var contentInput in request.Input.ContentInputs)
@@ -50,10 +50,10 @@ namespace Modules.Posts.Application.Posts.Commands.AddPost
                     ContentType = contentInput.ContentType
                 };
 
-                await _contentService.AddAsync(content);
+                await _contentRepository.AddAsync(content);
             }
 
-            await _postService.UpdateAsync(post.Id, post);
+            await _postRepository.UpdateAsync(post.Id, post);
             return _mapper.Map<PostPayload>(post);
         }
     }

@@ -1,12 +1,12 @@
 ﻿using Modules.Posts.Domain.Entities;
 using Modules.Posts.Domain.Interfaces;
 
-namespace Modules.Posts.Persistence.Services
+namespace Modules.Posts.Persistence.Repositories
 {
-    public class CommentService : EntityBaseRepository<Comment>, ICommentService
+    public class CommentRepository : EntityBaseRepository<Comment>, ICommentRepository
     {
         private readonly PostContext _context;
-        public CommentService(PostContext context) : base(context)
+        public CommentRepository(PostContext context) : base(context)
         {
             _context = context;
         }

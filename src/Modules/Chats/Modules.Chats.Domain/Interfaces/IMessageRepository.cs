@@ -2,7 +2,7 @@
 
 namespace Modules.Chats.Domain.Interfaces
 {
-    public interface IMessageService : IEntityBaseRepository<Message>
+    public interface IMessageRepository : IEntityBaseRepository<Message>
     {
         Task<IEnumerable<Message>> GetMessagesByChatIdAsync(Guid chatId);
     }

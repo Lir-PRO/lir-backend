@@ -2,7 +2,7 @@
 
 namespace Modules.Users.Domain.Interfaces
 { 
-    public interface IBadgeService : IEntityBaseRepository<Badge>
+    public interface IBadgeRepository : IEntityBaseRepository<Badge>
     {
     }
 }

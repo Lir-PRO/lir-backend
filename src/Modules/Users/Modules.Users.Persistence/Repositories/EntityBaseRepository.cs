@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Modules.Users.Domain.Common;
 using Modules.Users.Domain.Interfaces;
 
-namespace Modules.Users.Persistence.Services
+namespace Modules.Users.Persistence.Repositories
 {
     public class EntityBaseRepository<T> : IEntityBaseRepository<T> where T : class, IEntityBase, new()
     {

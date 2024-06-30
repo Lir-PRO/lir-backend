@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Modules.Users.Domain.Interfaces;
-using Modules.Users.Persistence.Services;
+using Modules.Users.Persistence.Repositories;
 
 namespace Modules.Users.Persistence
 {
@@ -13,9 +13,9 @@ namespace Modules.Users.Persistence
             services.AddDbContext<UserContext>(options =>
                 options.UseNpgsql(configuration.GetConnectionString("Postgre")));
 
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IBadgeService, BadgeService>();
-            services.AddScoped<ISubscriptionService, SubscriptionService>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IBadgeRepository, BadgeRepository>();
+            services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
 
             return services;
         }

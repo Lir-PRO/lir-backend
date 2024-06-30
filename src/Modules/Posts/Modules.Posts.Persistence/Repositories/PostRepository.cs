@@ -2,12 +2,12 @@
 using Modules.Posts.Domain.Entities;
 using Modules.Posts.Domain.Interfaces;
 
-namespace Modules.Posts.Persistence.Services
+namespace Modules.Posts.Persistence.Repositories
 {
-    public class PostService : EntityBaseRepository<Post>, IPostService
+    public class PostRepository : EntityBaseRepository<Post>, IPostRepository
     {
         private readonly PostContext _context;
-        public PostService(PostContext context) : base(context)
+        public PostRepository(PostContext context) : base(context)
         {
             _context = context;
         }

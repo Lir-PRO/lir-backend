@@ -2,7 +2,7 @@
 
 namespace Modules.Users.Domain.Interfaces
 {
-    public interface IUserService
+    public interface IUserRepository
     {
         Task<User> GetUserByEmailAsync(string email);
         Task<User> GetUserByUsernameAsync(string username);
