@@ -31,11 +31,13 @@ namespace Modules.Chats.Persistence.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnUpdate()
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.HasKey("Id");
 
@@ -58,14 +60,17 @@ namespace Modules.Chats.Persistence.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnUpdate()
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -76,12 +81,7 @@ namespace Modules.Chats.Persistence.Migrations
 
             modelBuilder.Entity("Modules.Chats.Domain.Entities.User", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("RefId")
-                        .IsRequired()
+                    b.Property<string>("Id")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -91,8 +91,8 @@ namespace Modules.Chats.Persistence.Migrations
 
             modelBuilder.Entity("Modules.Chats.Domain.Entities.UserChat", b =>
                 {
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
 
                     b.Property<Guid>("ChatId")
                         .HasColumnType("uuid");
@@ -125,7 +125,7 @@ namespace Modules.Chats.Persistence.Migrations
 
                     b.HasOne("Modules.Chats.Domain.Entities.User", "User")
                         .WithMany("UserChats")
-                        .HasForeignKey("ChatId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

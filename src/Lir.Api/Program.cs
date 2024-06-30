@@ -1,9 +1,8 @@
+using Lir.Api.GraphQL.Mutation;
 using Lir.Api.GraphQL.Query;
 using MassTransit;
 using Modules.Chats.Endpoints;
 using Modules.Posts.Endpoints;
-using Modules.Posts.Endpoints.GraphQL.Mutations;
-using Modules.Posts.Endpoints.GraphQL.Queries;
 using Modules.Users.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,13 +27,16 @@ builder.Services.AddMassTransit(x =>
 //builder.Services.AddMassTransitHostedService();
 
 builder.Services.AddGraphQLServer()
+    .AddAuthorization()
     .AddFiltering()
     .AddSorting()
-    .AddMutationType<PostMutation>()
+    .AddMutationType<Mutation>()
     .AddQueryType<Query>();
 
 var app = builder.Build();
 
+app.UseAuthentication();
+app.UseAuthorization();
 app.UseWebSockets();
 app.UseHttpsRedirection();
 app.MapGraphQL();

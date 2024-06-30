@@ -26,9 +26,11 @@ public class BadgeConfiguration : IEntityTypeConfiguration<Badge>
             .HasMaxLength(1000);
 
         builder.Property(e => e.CreatedAt)
+            .HasDefaultValueSql("CURRENT_TIMESTAMP")
             .ValueGeneratedOnAdd();
 
         builder.Property(e => e.UpdatedAt)
+            .HasDefaultValueSql("CURRENT_TIMESTAMP")
             .ValueGeneratedOnUpdate();
 
         // Navigation properties
