@@ -15,16 +15,17 @@ builder.Services.AddUsersServices(builder.Configuration);
 
 builder.Services.AddMassTransit(x =>
 {
-    // Register consumers from different modules
+    var assemblies = AppDomain.CurrentDomain.GetAssemblies()
+        .Where(assembly => assembly.FullName.StartsWith("Modules."))
+        .ToArray();
 
-    // Use in-memory transport
+    x.AddConsumers(assemblies);
+
     x.UsingInMemory((context, cfg) =>
     {
         cfg.ConfigureEndpoints(context);
     });
 });
-
-//builder.Services.AddMassTransitHostedService();
 
 builder.Services.AddGraphQLServer()
     .AddAuthorization()
