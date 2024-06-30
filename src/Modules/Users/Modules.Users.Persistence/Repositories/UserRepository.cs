@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Modules.Users.Domain.Entities;
 using Modules.Users.Domain.Interfaces;
 
@@ -12,12 +13,12 @@ namespace Modules.Users.Persistence.Repositories
             _context = context;
         }
 
-        public async Task<User> GetUserByEmailAsync(string email)
+        public async Task<User> GetByEmailAsync(string email)
         {
             return await _context.Users.Where(u => u.Email == email).FirstOrDefaultAsync();
         }
 
-        public async Task<User> GetUserByUsernameAsync(string username)
+        public async Task<User> GetByUsernameAsync(string username)
         {
             return await _context.Users.Where(u => u.Username == username).FirstOrDefaultAsync();
         }
@@ -35,6 +36,29 @@ namespace Modules.Users.Persistence.Repositories
         public async Task<IEnumerable<User>> GetSubscriptionsByUserId(string userId)
         {
             return await _context.UserSubscriptions.Where(us => us.SubscriberId == userId).Select(us => us.User).ToListAsync();
+        }
+
+        public async Task AddAsync(User entity, CancellationToken cancellationToken)
+        {
+            await _context.Users.AddAsync(entity, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task DeleteAsync(string id, CancellationToken cancellationToken)
+        {
+            var entity = await _context.Users.FirstOrDefaultAsync(n => n.Id == id, cancellationToken);
+            EntityEntry entityEntry = _context.Entry<User>(entity);
+            entityEntry.State = EntityState.Deleted;
+
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task UpdateAsync(string id, User entity, CancellationToken cancellationToken)
+        {
+            EntityEntry entityEntry = _context.Entry<User>(entity);
+            entityEntry.State = EntityState.Modified;
+
+            await _context.SaveChangesAsync(cancellationToken);
         }
     }
 }
