@@ -1,7 +1,7 @@
 ﻿namespace Modules.Chats.Domain.Entities;
 public class UserChat
 {
-    public Guid UserId { get; set; }
+    public string UserId { get; set; }
     public Guid ChatId { get; set; }
 
     // Navigation properties

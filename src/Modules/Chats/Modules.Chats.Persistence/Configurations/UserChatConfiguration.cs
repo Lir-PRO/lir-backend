@@ -16,12 +16,12 @@ public class UserChatConfiguration : IEntityTypeConfiguration<UserChat>
 
         builder.HasOne(uc => uc.User)
             .WithMany(u => u.UserChats)
-            .HasForeignKey(uc => uc.ChatId)
+            .HasForeignKey(uc => uc.UserId)
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasOne(uc => uc.Chat)
             .WithMany(c => c.UserChats)
-            .HasForeignKey(uc => uc.UserId)
+            .HasForeignKey(uc => uc.ChatId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }
