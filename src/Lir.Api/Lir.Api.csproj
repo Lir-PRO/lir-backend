@@ -35,7 +35,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="GraphQL\Mutation\" />
     <Folder Include="GraphQL\Output\" />
   </ItemGroup>
 

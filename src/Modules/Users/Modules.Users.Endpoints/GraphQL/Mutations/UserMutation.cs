@@ -4,7 +4,7 @@ using Modules.Users.Application.Common.Models;
 using Modules.Users.Application.Users.Commands.AddUser;
 using Modules.Users.Application.Users.Commands.Login;
 
-namespace Modules.Users.Endpoints.GraphQL.Mutation;
+namespace Modules.Users.Endpoints.GraphQL.Mutations;
 
 public class UserMutation
 {

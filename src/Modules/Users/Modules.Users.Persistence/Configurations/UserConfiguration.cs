@@ -26,9 +26,6 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(e => e.ProfilePictureBase64)
             .IsRequired(false);
 
-        builder.Property(e => e.RefreshToken)
-            .IsRequired(false);
-
         // Navigation properties
         builder.HasMany(u => u.UserBadges)
             .WithOne(ub => ub.User)
