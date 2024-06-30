@@ -28,6 +28,7 @@ builder.Services.AddMassTransit(x =>
 //builder.Services.AddMassTransitHostedService();
 
 builder.Services.AddGraphQLServer()
+    .AddAuthorization()
     .AddFiltering()
     .AddSorting()
     .AddMutationType<PostMutation>()
@@ -35,6 +36,8 @@ builder.Services.AddGraphQLServer()
 
 var app = builder.Build();
 
+app.UseAuthentication();
+app.UseAuthorization();
 app.UseWebSockets();
 app.UseHttpsRedirection();
 app.MapGraphQL();
