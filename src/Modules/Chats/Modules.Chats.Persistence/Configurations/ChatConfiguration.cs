@@ -14,9 +14,11 @@ public class ChatConfiguration : IEntityTypeConfiguration<Chat>
             .ValueGeneratedOnAdd();
 
         builder.Property(e => e.CreatedAt)
+            .HasDefaultValueSql("CURRENT_TIMESTAMP")
             .ValueGeneratedOnAdd();
 
         builder.Property(e => e.UpdatedAt)
+            .HasDefaultValueSql("CURRENT_TIMESTAMP")
             .ValueGeneratedOnUpdate();
 
         // Navigation properties

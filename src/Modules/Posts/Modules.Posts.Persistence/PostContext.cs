@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Modules.Posts.Application.Common.Interfaces;
 using Modules.Posts.Domain.Entities;
 using Modules.Posts.Persistence.Configurations;
 
 namespace Modules.Posts.Persistence;
 
-public class PostContext : DbContext
+public class PostContext : DbContext, IPostContext
 {
     public PostContext(DbContextOptions<PostContext> options) : base(options)
     {

@@ -14,9 +14,11 @@ public class PostConfiguration : IEntityTypeConfiguration<Post>
             .ValueGeneratedOnAdd();
 
         builder.Property(e => e.CreatedAt)
+            .HasDefaultValueSql("CURRENT_TIMESTAMP")
             .ValueGeneratedOnAdd();
 
         builder.Property(e => e.UpdatedAt)
+            .HasDefaultValueSql("CURRENT_TIMESTAMP")
             .ValueGeneratedOnUpdate();
 
         // Foreign key

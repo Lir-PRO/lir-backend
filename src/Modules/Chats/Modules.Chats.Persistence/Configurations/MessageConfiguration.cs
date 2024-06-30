@@ -18,9 +18,11 @@ public class MessageConfiguration : IEntityTypeConfiguration<Message>
             .HasMaxLength(1000);
 
         builder.Property(e => e.CreatedAt)
+            .HasDefaultValueSql("CURRENT_TIMESTAMP")
             .ValueGeneratedOnAdd();
 
         builder.Property(e => e.UpdatedAt)
+            .HasDefaultValueSql("CURRENT_TIMESTAMP")
             .ValueGeneratedOnUpdate();
 
         // Foreign keys

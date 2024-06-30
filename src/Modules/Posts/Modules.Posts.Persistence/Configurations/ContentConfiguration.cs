@@ -15,9 +15,11 @@ public class ContentConfiguration : IEntityTypeConfiguration<Content>
             .ValueGeneratedOnAdd();
 
         builder.Property(e => e.CreatedAt)
+            .HasDefaultValueSql("CURRENT_TIMESTAMP")
             .ValueGeneratedOnAdd();
 
         builder.Property(e => e.UpdatedAt)
+            .HasDefaultValueSql("CURRENT_TIMESTAMP")
             .ValueGeneratedOnUpdate();
 
         builder.Property(c => c.ContentType)

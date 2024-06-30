@@ -40,8 +40,12 @@ namespace Modules.Users.Persistence.Repositories
 
         public async Task AddAsync(User entity, CancellationToken cancellationToken)
         {
-            await _context.Users.AddAsync(entity, cancellationToken);
-            await _context.SaveChangesAsync(cancellationToken);
+            try
+            {
+                await _context.Users.AddAsync(entity, cancellationToken);
+                await _context.SaveChangesAsync(cancellationToken);
+            }
+            catch (Exception ex){}
         }
 
         public async Task DeleteAsync(string id, CancellationToken cancellationToken)

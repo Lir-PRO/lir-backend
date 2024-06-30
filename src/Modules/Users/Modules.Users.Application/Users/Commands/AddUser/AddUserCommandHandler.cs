@@ -26,6 +26,7 @@ public class AddUserCommandHandler : IRequestHandler<AddUserCommand, string>
             Email = request.Input.Email,
             Name = request.Input.Name,
             Bio = request.Input.Bio,
+            Username = request.Input.Username,
             ProfilePictureBase64 = request.Input.ProfilePictureBase64
         };
 
