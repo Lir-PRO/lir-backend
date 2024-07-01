@@ -10,8 +10,9 @@ namespace Modules.Posts.Application.Common.Models
         public string Caption { get; set; }
         public int Likes { get; set; } = 0;
         public int Views { get; set; } = 0;
-        public Guid UserId { get; set; }
-        public ICollection<PostCategory> PostCategories { get; set; }
+        public string UserId { get; set; }
+        public ICollection<PostCategory>? PostCategories { get; set; }
+        public ICollection<ContentPayload> Contents { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public void Mapping(Profile profile)

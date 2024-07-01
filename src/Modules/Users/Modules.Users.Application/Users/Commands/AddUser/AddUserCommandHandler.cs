@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using Common.Events;
+using MassTransit;
+using MediatR;
 using Modules.Users.Application.Common.Interfaces;
 using Modules.Users.Domain.Entities;
 using Modules.Users.Domain.Interfaces;
@@ -9,11 +11,15 @@ public class AddUserCommandHandler : IRequestHandler<AddUserCommand, string>
 {
     private readonly IUserRepository _userRepository;
     private readonly IAuth0Service _auth0Service;
+    private readonly IPublishEndpoint _publishEndpoint;
 
-    public AddUserCommandHandler(IUserRepository userRepository, IAuth0Service auth0Service)
+    public AddUserCommandHandler(IUserRepository userRepository, 
+        IAuth0Service auth0Service,
+        IPublishEndpoint publishEndpoint)
     {
         _userRepository = userRepository;
-        _auth0Service = auth0Service;
+        _auth0Service = auth0Service; 
+        _publishEndpoint = publishEndpoint;
     }
 
     public async Task<string> Handle(AddUserCommand request, CancellationToken cancellationToken)
@@ -31,6 +37,8 @@ public class AddUserCommandHandler : IRequestHandler<AddUserCommand, string>
         };
 
         await _userRepository.AddAsync(newUser, cancellationToken);
+
+        await _publishEndpoint.Publish(new UserCreatedEvent(newUser.Id));
 
         return newUser.Id;
     }

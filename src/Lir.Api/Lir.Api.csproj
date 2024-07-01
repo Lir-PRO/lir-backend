@@ -6,16 +6,6 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="GraphQL\Filters\**" />
-    <Compile Remove="GraphQL\Payload\**" />
-    <Content Remove="GraphQL\Filters\**" />
-    <Content Remove="GraphQL\Payload\**" />
-    <EmbeddedResource Remove="GraphQL\Filters\**" />
-    <EmbeddedResource Remove="GraphQL\Payload\**" />
-    <None Remove="GraphQL\Filters\**" />
-    <None Remove="GraphQL\Payload\**" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="HotChocolate.AspNetCore" Version="13.9.6" />
@@ -32,10 +22,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <TreatAsUsed>true</TreatAsUsed>
     </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="GraphQL\Output\" />
   </ItemGroup>
 
   <ItemGroup>

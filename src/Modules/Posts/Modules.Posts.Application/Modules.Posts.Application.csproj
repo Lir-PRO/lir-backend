@@ -20,10 +20,9 @@
   <ItemGroup>
     <Folder Include="Categories\Commands\AddCategory\" />
     <Folder Include="Categories\Commands\UpdateCategory\" />
-    <Folder Include="Comments\Commands\AddComment\" />
+    <Folder Include="Comments\Commands\UpdateComment\" />
     <Folder Include="Comments\Commands\UpdateCategory\" />
     <Folder Include="Comments\Queries\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>

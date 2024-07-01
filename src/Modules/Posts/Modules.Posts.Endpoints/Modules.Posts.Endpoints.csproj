@@ -16,6 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Modules.Posts.Application\Modules.Posts.Application.csproj" />
     <ProjectReference Include="..\Modules.Posts.Domain\Modules.Posts.Domain.csproj" />
+    <ProjectReference Include="..\Modules.Posts.Infrastructure\Modules.Posts.Infrastructure.csproj" />
     <ProjectReference Include="..\Modules.Posts.Persistence\Modules.Posts.Persistence.csproj" />
   </ItemGroup>
 
