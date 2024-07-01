@@ -9,10 +9,14 @@ namespace Modules.Posts.Persistence
 {
     public static class ConfigureServices
     {
-        public static IServiceCollection AddPostsPersistenceServices(this IServiceCollection services, IConfiguration configuration)
+        public static async Task<IServiceCollection> AddPostsPersistenceServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<PostContext>(options =>
                 options.UseNpgsql(configuration.GetConnectionString("Postgre")));
+
+            services.AddScoped<PostDbContextInitializer>();
+            var postInitializer = services.BuildServiceProvider().GetRequiredService<PostDbContextInitializer>();
+            await postInitializer.InitialiseAsync();
 
             services.AddScoped<IPostContext>(provider => provider.GetRequiredService<PostContext>());
             services.AddScoped<IPostRepository, PostRepository>();
