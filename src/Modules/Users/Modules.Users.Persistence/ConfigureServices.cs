@@ -8,10 +8,14 @@ namespace Modules.Users.Persistence
 {
     public static class ConfigureServices
     {
-        public static IServiceCollection AddUsersPersistenceServices(this IServiceCollection services, IConfiguration configuration)
+        public static async Task<IServiceCollection> AddUsersPersistenceServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<UserContext>(options =>
                 options.UseNpgsql(configuration.GetConnectionString("Postgre")));
+
+            services.AddScoped<UserDbContextInitializer>();
+            var userInitializer = services.BuildServiceProvider().GetRequiredService<UserDbContextInitializer>();
+            await userInitializer.InitialiseAsync();
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IBadgeRepository, BadgeRepository>();
