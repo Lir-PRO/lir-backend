@@ -11,9 +11,9 @@ namespace Modules.Users.Endpoints;
 
 public static class ConfigureServices
 {
-    public static IServiceCollection AddUsersServices(this IServiceCollection services, IConfiguration configuration)
+    public static async Task<IServiceCollection> AddUsersServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddUsersPersistenceServices(configuration);
+        await services.AddUsersPersistenceServices(configuration);
         services.AddUsersInfrastructureServices(configuration);
         services.AddUsersApplicationServices(configuration);
 

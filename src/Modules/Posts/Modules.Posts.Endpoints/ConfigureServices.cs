@@ -10,15 +10,15 @@ namespace Modules.Posts.Endpoints;
 
 public static class ConfigureServices
 {
-    public static IServiceCollection AddPostsServices(this IServiceCollection services, IConfiguration configuration)
+    public static async Task<IServiceCollection> AddPostsServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddPostsPersistenceServices(configuration);
+        await services.AddPostsPersistenceServices(configuration);
         services.AddPostsApplicationServices(configuration);
         services.AddPostsInfrastructureServices(configuration);
 
         services.AddScoped<PostQuery>();
-        services.AddScoped<CategoryQuery>();
         services.AddScoped<PostMutation>();
+        services.AddScoped<CategoryMutation>();
 
         return services;
     }

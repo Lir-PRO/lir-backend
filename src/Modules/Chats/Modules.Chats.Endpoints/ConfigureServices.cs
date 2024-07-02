@@ -8,9 +8,9 @@ namespace Modules.Chats.Endpoints;
 
 public static class ConfigureServices
 {
-    public static IServiceCollection AddChatsServices(this IServiceCollection services, IConfiguration configuration)
+    public static async Task<IServiceCollection> AddChatsServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddChatsPersistenceServices(configuration);
+        await services.AddChatsPersistenceServices(configuration);
         services.AddChatsApplicationServices(configuration);
         services.AddChatsInfrastructureServices(configuration);
 
