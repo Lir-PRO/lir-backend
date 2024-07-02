@@ -17,6 +17,7 @@ public static class ConfigureServices
         services.AddPostsInfrastructureServices(configuration);
 
         services.AddScoped<PostQuery>();
+        services.AddScoped<CategoryQuery>();
         services.AddScoped<PostMutation>();
         services.AddScoped<CategoryMutation>();
 
