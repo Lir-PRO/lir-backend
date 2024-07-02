@@ -18,7 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Categories\Commands\UpdateCategory\" />
     <Folder Include="Comments\Commands\UpdateComment\" />
     <Folder Include="Comments\Commands\UpdateCategory\" />
     <Folder Include="Comments\Queries\" />

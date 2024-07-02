@@ -1,14 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
 using Modules.Posts.Application.Common.Models;
-using Modules.Posts.Application.Posts.Commands.AddPost;
 using Modules.Posts.Domain.Entities;
 using Modules.Posts.Domain.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Modules.Posts.Application.Categories.Commands.AddCategory;
 
