@@ -23,7 +23,7 @@ public class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategoryComman
         category.Name = request.Input.Name;
         category.Description = request.Input.Description;
 
-        await _categoryRepository.UpdateAsync(category.Id, category);
+        await _categoryRepository.UpdateAsync(category.Id, category, cancellationToken);
 
         return _mapper.Map<CategoryPayload>(category);
     }

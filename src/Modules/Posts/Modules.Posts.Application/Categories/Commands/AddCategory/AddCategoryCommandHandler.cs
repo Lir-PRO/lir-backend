@@ -25,7 +25,7 @@ public class AddCategoryCommandHandler : IRequestHandler<AddCategoryCommand, Cat
             Description = request.Description
         };
 
-        await _categoryRepository.AddAsync(category);
+        await _categoryRepository.AddAsync(category, cancellationToken);
 
         return _mapper.Map<CategoryPayload>(category);
     }

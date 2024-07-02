@@ -41,7 +41,7 @@ namespace Modules.Posts.Application.Posts.Commands.UpdatePost
 
             foreach (var content in post.Contents)
             {
-                await _contentRepository.DeleteAsync(content.Id);
+                await _contentRepository.DeleteAsync(content.Id, cancellationToken);
             }
 
             foreach (var contentInput in request.Input.ContentInputs)
@@ -53,10 +53,10 @@ namespace Modules.Posts.Application.Posts.Commands.UpdatePost
                     ContentType = contentInput.ContentType
                 };
 
-                await _contentRepository.AddAsync(content);
+                await _contentRepository.AddAsync(content, cancellationToken);
             }
 
-            await _postRepository.UpdateAsync(post.Id, post);
+            await _postRepository.UpdateAsync(post.Id, post, cancellationToken);
             return _mapper.Map<PostPayload>(post);
         }
     }
