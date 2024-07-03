@@ -5,7 +5,6 @@ using Modules.Posts.Domain.Interfaces;
 
 namespace Modules.Posts.Application.Categories.Queries.GetCategoryById;
 
-
 public class GetCategoryByIdQueryHandler : IRequestHandler<GetCategoryByIdQuery, CategoryPayload>
 {
     private readonly ICategoryRepository _categoryRepository;
