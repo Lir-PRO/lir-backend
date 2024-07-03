@@ -9,9 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddPostsServices(builder.Configuration);
-builder.Services.AddChatsServices(builder.Configuration);
-builder.Services.AddUsersServices(builder.Configuration);
+await builder.Services.AddPostsServices(builder.Configuration);
+await builder.Services.AddChatsServices(builder.Configuration);
+await builder.Services.AddUsersServices(builder.Configuration);
 
 builder.Services.AddMassTransit(x =>
 {

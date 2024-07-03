@@ -14,22 +14,28 @@ namespace Modules.Posts.Persistence.Repositories
             _context = context;
         }
 
-        public async Task AddAsync(T entity)
+        public async Task AddAsync(T entity, CancellationToken cancellationToken)
         {
-            await _context.Set<T>().AddAsync(entity);
-            await _context.SaveChangesAsync();
+            await _context.Set<T>().AddAsync(entity, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task DeleteAsync(Guid id)
+        public async Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
-            var entity = await _context.Set<T>().FirstOrDefaultAsync(n => n.Id == id);
-            EntityEntry entityEntry = _context.Entry<T>(entity);
+            var entity = await _context.Set<T>().FirstOrDefaultAsync(n => n.Id == id, cancellationToken);
+            if (entity == null)
+            {
+                return false;
+            }
+
+            EntityEntry entityEntry = _context.Entry(entity);
             entityEntry.State = EntityState.Deleted;
 
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
+            return true;
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync() => await _context.Set<T>().ToListAsync();
+        public async Task<IEnumerable<T>> GetAllAsync(CancellationToken cancellationToken) => await _context.Set<T>().ToListAsync(cancellationToken);
 
         public async Task<IEnumerable<T>> GetAllAsync(params Expression<Func<T, object>>[] includeProperties)
         {
@@ -39,7 +45,7 @@ namespace Modules.Posts.Persistence.Repositories
 
         }
 
-        public async Task<T> GetByIdAsync(Guid id) => await _context.Set<T>().FirstOrDefaultAsync(n => n.Id == id);
+        public async Task<T> GetByIdAsync(Guid id, CancellationToken cancellationToken) => await _context.Set<T>().FirstOrDefaultAsync(n => n.Id == id, cancellationToken);
 
         public async Task<T> GetByIdAsync(Guid id, params Expression<Func<T, object>>[] includeProperties)
         {
@@ -48,12 +54,12 @@ namespace Modules.Posts.Persistence.Repositories
             return await query.FirstOrDefaultAsync(n => n.Id == id);
         }
 
-        public async Task UpdateAsync(Guid id, T entity)
+        public async Task UpdateAsync(Guid id, T entity, CancellationToken cancellationToken)
         {
             EntityEntry entityEntry = _context.Entry<T>(entity);
             entityEntry.State = EntityState.Modified;
 
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
         }
     }
 }

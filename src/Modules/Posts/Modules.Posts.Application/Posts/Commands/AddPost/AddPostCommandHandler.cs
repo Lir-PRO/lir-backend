@@ -29,7 +29,7 @@ namespace Modules.Posts.Application.Posts.Commands.AddPost
                 Caption = request.Input.Caption
             };
 
-            await _postRepository.AddAsync(post);
+            await _postRepository.AddAsync(post, cancellationToken);
 
             foreach (var categoryId in request.Input.CategoryIds)
             {
@@ -50,10 +50,10 @@ namespace Modules.Posts.Application.Posts.Commands.AddPost
                     ContentType = contentInput.ContentType
                 };
 
-                await _contentRepository.AddAsync(content);
+                await _contentRepository.AddAsync(content, cancellationToken);
             }
 
-            await _postRepository.UpdateAsync(post.Id, post);
+            await _postRepository.UpdateAsync(post.Id, post, cancellationToken);
             return _mapper.Map<PostPayload>(post);
         }
     }
