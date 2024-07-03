@@ -1,6 +1,7 @@
 ﻿using HotChocolate;
 using HotChocolate.Types;
 using MediatR;
+using Modules.Posts.Application.Categories.Queries.GetCategoriesByPostId;
 using Modules.Posts.Application.Categories.Queries.GetCategoryById;
 using Modules.Posts.Application.Common.Models;
 
@@ -11,5 +12,13 @@ public class CategoryQuery
     public async Task<CategoryPayload> GetCategoryById(Guid id, [Service] ISender mediatr)
     {
         return await mediatr.Send(new GetCategoryByIdQuery(id));
+    }
+
+    [UsePaging(IncludeTotalCount = true)]
+    [UseFiltering]
+    [UseSorting]
+    public async Task<IQueryable<CategoryPayload>> GetCategoriesByPostId(Guid id, [Service] ISender mediatr)
+    {
+        return await mediatr.Send(new GetCategoriesByPostIdQuery(id));
     }
 }
