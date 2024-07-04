@@ -1,15 +1,17 @@
 ﻿using HotChocolate;
 using HotChocolate.Types;
-using Modules.Posts.Domain.Entities;
+using MediatR;
+using Modules.Posts.Application.Comments.Queries.GetCommentsByPostId;
+using Modules.Posts.Application.Common.Models;
 
 namespace Modules.Posts.Endpoints.GraphQL.Queries;
 public class CommentQuery
 {
-    //[UsePaging(IncludeTotalCount = true)]
-    //[UseFiltering]
-    //[UseSorting]
-    //public IQueryable<Comment> GetCommentsByPostId(Guid postId)
-    //{
-    //
-    //}
+    [UsePaging(IncludeTotalCount = true)]
+    [UseFiltering]
+    [UseSorting]
+    public async Task<IQueryable<CommentPayload>> GetCommentsByPostId(Guid postId, [Service] ISender mediatr)
+    {
+        return await mediatr.Send(new GetCommentsByPostIdQuery(postId));
+    }
 }
