@@ -17,8 +17,4 @@
     <ProjectReference Include="..\Modules.Posts.Domain\Modules.Posts.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Comments\Queries\" />
-  </ItemGroup>
-
 </Project>

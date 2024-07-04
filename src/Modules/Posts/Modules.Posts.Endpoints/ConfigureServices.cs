@@ -15,12 +15,14 @@ public static class ConfigureServices
         await services.AddPostsPersistenceServices(configuration);
         services.AddPostsApplicationServices(configuration);
         services.AddPostsInfrastructureServices(configuration);
-
-        services.AddScoped<PostQuery>();
-        services.AddScoped<CategoryQuery>();
+        
         services.AddScoped<PostMutation>();
         services.AddScoped<CategoryMutation>();
         services.AddScoped<CommentMutation>();
+
+        services.AddScoped<PostQuery>();
+        services.AddScoped<CategoryQuery>();
+        services.AddScoped<CommentQuery>();
 
         return services;
     }
