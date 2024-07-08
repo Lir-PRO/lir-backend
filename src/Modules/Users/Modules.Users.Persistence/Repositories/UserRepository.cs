@@ -69,5 +69,10 @@ namespace Modules.Users.Persistence.Repositories
         {
            return await _context.Users.FirstOrDefaultAsync(u => u.Id == id, cancellationToken);
         }
+
+        public async Task<IQueryable<User>> GetAllAsync()
+        {
+            return await Task.FromResult(_context.Users.AsQueryable());
+        }
     }
 }
