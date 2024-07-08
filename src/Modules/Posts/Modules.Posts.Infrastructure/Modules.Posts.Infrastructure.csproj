@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Common\Common.csproj" />
+    <ProjectReference Include="..\..\..\Common\Common.csproj" />
     <ProjectReference Include="..\Modules.Posts.Persistence\Modules.Posts.Persistence.csproj" />
   </ItemGroup>
 
