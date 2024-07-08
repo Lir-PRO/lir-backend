@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Modules.Users.Application;
 using Modules.Users.Application.Common.Models;
 using Modules.Users.Endpoints.GraphQL.Mutations;
+using Modules.Users.Endpoints.GraphQL.Queries;
 using Modules.Users.Infrastructure;
 using Modules.Users.Persistence;
 
@@ -18,6 +19,7 @@ public static class ConfigureServices
         services.AddUsersApplicationServices(configuration);
 
         services.AddScoped<UserMutation>();
+        services.AddScoped<UserQuery>();
 
         var auth0Settings = configuration.GetSection("Auth0").Get<Auth0Settings>();
         services.AddAuthentication(options =>

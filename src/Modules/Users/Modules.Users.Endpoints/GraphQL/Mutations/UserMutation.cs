@@ -1,6 +1,6 @@
 ﻿using HotChocolate;
 using MediatR;
-using Modules.Users.Application.Common.Models;
+using Modules.Users.Application.Common.Input;
 using Modules.Users.Application.Users.Commands.AddUser;
 using Modules.Users.Application.Users.Commands.Login;
 

@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="Auth0.AspNetCore.Authentication" Version="1.4.1" />
     <PackageReference Include="Auth0.AuthenticationApi" Version="7.26.2" />
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="MassTransit.Abstractions" Version="8.2.3" />
     <PackageReference Include="MediatR" Version="12.3.0" />
     <PackageReference Include="MediatR.Contracts" Version="2.0.1" />
@@ -18,11 +19,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Common\Common.csproj" />
+    <ProjectReference Include="..\..\..\Common\Common.csproj" />
     <ProjectReference Include="..\Modules.Users.Domain\Modules.Users.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Users\Queries\" />
+    <Folder Include="Badges\" />
   </ItemGroup>
 
 </Project>
