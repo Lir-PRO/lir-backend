@@ -1,8 +1,8 @@
-﻿namespace Modules.Users.Application.Common.Models;
+﻿namespace Modules.Users.Application.Common.Input;
 
 public class AddUserInput
 {
-    public string Username { get; set;}
+    public string Username { get; set; }
     public string? Name { get; set; }
     public string Email { get; set; }
     public string Password { get; set; }

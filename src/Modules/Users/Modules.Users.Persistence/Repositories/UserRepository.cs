@@ -64,5 +64,10 @@ namespace Modules.Users.Persistence.Repositories
 
             await _context.SaveChangesAsync(cancellationToken);
         }
+
+        public async Task<User> GetByIdAsync(string id, CancellationToken cancellationToken)
+        {
+           return await _context.Users.FirstOrDefaultAsync(u => u.Id == id, cancellationToken);
+        }
     }
 }

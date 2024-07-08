@@ -9,6 +9,7 @@ namespace Modules.Users.Domain.Interfaces
         Task<IEnumerable<User>> GetUsersByBadgeId(Guid badgeId);
         Task<IEnumerable<User>> GetSubscribersByUserId(string userId);
         Task<IEnumerable<User>> GetSubscriptionsByUserId(string userId);
+        Task<User> GetByIdAsync(string id, CancellationToken cancellationToken);
         Task AddAsync(User entity, CancellationToken cancellationToken);
         Task UpdateAsync(string id, User entity, CancellationToken cancellationToken);
         Task DeleteAsync(string id, CancellationToken cancellationToken);

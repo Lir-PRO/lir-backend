@@ -11,6 +11,7 @@ public static class ConfigureServices
 {
     public static IServiceCollection AddUsersApplicationServices(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddAutoMapper(Assembly.GetExecutingAssembly());
         services.Configure<Auth0Settings>(configuration.GetSection("Auth0"));
 
         services.AddMediatR(options =>
