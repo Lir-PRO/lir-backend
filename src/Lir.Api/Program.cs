@@ -36,6 +36,8 @@ builder.Services.AddGraphQLServer()
 
 var app = builder.Build();
 
+app.UseCors(b => b.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseWebSockets();

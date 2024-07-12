@@ -13,6 +13,6 @@ namespace Modules.Users.Domain.Interfaces
         Task<User> GetByIdAsync(string id, CancellationToken cancellationToken);
         Task AddAsync(User entity, CancellationToken cancellationToken);
         Task UpdateAsync(string id, User entity, CancellationToken cancellationToken);
-        Task DeleteAsync(string id, CancellationToken cancellationToken);
+        Task<bool> DeleteAsync(string id, CancellationToken cancellationToken);
     }
 }

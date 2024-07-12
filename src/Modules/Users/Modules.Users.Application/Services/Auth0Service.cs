@@ -1,5 +1,6 @@
 ﻿using Auth0.AuthenticationApi;
 using Auth0.AuthenticationApi.Models;
+using Auth0.ManagementApi;
 using Microsoft.Extensions.Options;
 using Modules.Users.Application.Common.Interfaces;
 using Modules.Users.Application.Common.Models;
@@ -27,7 +28,28 @@ public class Auth0Service : IAuth0Service
         };
 
         var signupResponse = await auth0Client.SignupUserAsync(signupRequest);
-        return signupResponse.Id;
+        return "auth0|" + signupResponse.Id;
+    }
+
+    public async Task<bool> DeleteUser(string id)
+    {
+        var auth0Client = new AuthenticationApiClient(new Uri($"https://{_auth0Settings.Domain}/"));
+
+        var tokenRequest = new ClientCredentialsTokenRequest
+        {
+            ClientId = _auth0Settings.ClientId,
+            ClientSecret = _auth0Settings.ClientSecret,
+            Audience = $"https://{_auth0Settings.Domain}/api/v2/"
+        };
+
+        var tokenResponse = await auth0Client.GetTokenAsync(tokenRequest);
+
+        var managementClient = new ManagementApiClient(tokenResponse.AccessToken, new Uri($"https://{_auth0Settings.Domain}/api/v2"));
+
+
+        await managementClient.Users.DeleteAsync(id);
+
+        return true;
     }
 
     public async Task<string> LoginUser(string email, string password)

@@ -1,15 +1,15 @@
 ﻿using Common.Events;
 using MassTransit;
-using Modules.Posts.Domain.Entities;
-using Modules.Posts.Persistence;
+using Modules.Chats.Domain.Entities;
+using Modules.Chats.Persistence;
 
-namespace Modules.Posts.Infrastructure.Consumers;
+namespace Modules.Chats.Infrastructure.Consumers;
 
-public class UserCreatedPostsConsumer : IConsumer<UserCreatedEvent>
+public class UserCreatedConsumer : IConsumer<UserCreatedEvent>
 {
-    private readonly PostContext _context;
+    private readonly ChatContext _context;
 
-    public UserCreatedPostsConsumer(PostContext context)
+    public UserCreatedConsumer(ChatContext context)
     {
         _context = context;
     }
