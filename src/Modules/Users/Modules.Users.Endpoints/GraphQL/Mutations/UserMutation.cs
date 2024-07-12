@@ -3,6 +3,7 @@ using MediatR;
 using Modules.Users.Application.Common.Input;
 using Modules.Users.Application.Common.Payload;
 using Modules.Users.Application.Users.Commands.AddUser;
+using Modules.Users.Application.Users.Commands.DeleteUser;
 using Modules.Users.Application.Users.Commands.Login;
 using Modules.Users.Application.Users.Commands.UpdateUser;
 
@@ -23,5 +24,10 @@ public class UserMutation
     public async Task<string> Login(string email, string password, [Service] ISender mediatr)
     {
         return await mediatr.Send(new LoginCommand(email, password));
+    }
+
+    public async Task<bool> DeleteUser(string id, [Service] ISender mediatr)
+    {
+        return await mediatr.Send(new DeleteUserCommand(id));
     }
 }
