@@ -48,13 +48,19 @@ namespace Modules.Users.Persistence.Repositories
             catch (Exception ex){}
         }
 
-        public async Task DeleteAsync(string id, CancellationToken cancellationToken)
+        public async Task<bool> DeleteAsync(string id, CancellationToken cancellationToken)
         {
             var entity = await _context.Users.FirstOrDefaultAsync(n => n.Id == id, cancellationToken);
-            EntityEntry entityEntry = _context.Entry<User>(entity);
+            if (entity == null)
+            {
+                return false;
+            }
+
+            EntityEntry entityEntry = _context.Entry(entity);
             entityEntry.State = EntityState.Deleted;
 
             await _context.SaveChangesAsync(cancellationToken);
+            return true;
         }
 
         public async Task UpdateAsync(string id, User entity, CancellationToken cancellationToken)
