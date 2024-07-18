@@ -14,7 +14,8 @@ public class Mutation
     public Mutation(PostMutation post, 
         UserMutation user,
         CategoryMutation category, 
-        CommentMutation comment, SubscriptionMutation subscription)
+        CommentMutation comment, 
+        SubscriptionMutation subscription)
     {
         Post = post;
         User = user;
