@@ -9,15 +9,18 @@ public class Mutation
     public CategoryMutation Category { get; set; }
     public CommentMutation Comment { get; set; }
     public UserMutation User { get; set; }
+    public SubscriptionMutation Subscription { get; set; }
 
     public Mutation(PostMutation post, 
         UserMutation user,
         CategoryMutation category, 
-        CommentMutation comment)
+        CommentMutation comment, 
+        SubscriptionMutation subscription)
     {
         Post = post;
         User = user;
         Category = category;
         Comment = comment;
+        Subscription = subscription;
     }
 }

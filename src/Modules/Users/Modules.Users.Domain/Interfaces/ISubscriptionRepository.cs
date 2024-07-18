@@ -2,7 +2,7 @@
 {
     public interface ISubscriptionRepository
     {
-        Task AddSubscription(string subscriberId, string userId);
-        Task DeleteSubscription(string subscriberId, string userId);
+        Task<bool> AddSubscription(string subscriberId, string userId);
+        Task<bool> DeleteSubscription(string subscriberId, string userId);
     }
 }

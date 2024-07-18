@@ -3,22 +3,22 @@ using MediatR;
 using Modules.Users.Application.Common.Payload;
 using Modules.Users.Domain.Interfaces;
 
-namespace Modules.Users.Application.Users.Queries.GetUsersSubscriptions;
+namespace Modules.Users.Application.Subscription.Queries.GetSubscriptionsByUserId;
 
-public class GetUsersSubscriptionsQueryHandler : IRequestHandler<GetUsersSubscriptionsQuery, IQueryable<UserPayload>>
+public class GetSubscriptionsByUserIdQueryHandler : IRequestHandler<GetSubscriptionsByUserIdQuery, IQueryable<UserPayload>>
 {
     private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;
 
-    public GetUsersSubscriptionsQueryHandler(IUserRepository userRepository, IMapper mapper)
+    public GetSubscriptionsByUserIdQueryHandler(IUserRepository userRepository, IMapper mapper)
     {
         _userRepository = userRepository;
         _mapper = mapper;
     }
 
-    public async Task<IQueryable<UserPayload>> Handle(GetUsersSubscriptionsQuery request, CancellationToken cancellationToken)
+    public async Task<IQueryable<UserPayload>> Handle(GetSubscriptionsByUserIdQuery request, CancellationToken cancellationToken)
     {
-        var subscriptions = await _userRepository.GetSubscriptionsByUserId(request.Id);
+        var subscriptions = await _userRepository.GetSubscriptionsByUserId(request.UserId);
 
         var result = new List<UserPayload>();
 
