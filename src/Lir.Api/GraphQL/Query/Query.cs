@@ -9,6 +9,7 @@ public class Query
     public CategoryQuery Category { get; set; }
     public CommentQuery Comment { get; set; }
     public UserQuery User { get; set; }
+    public SubscriptionQuery Subscription { get; set; }
 
     public Query(PostQuery post, 
         CategoryQuery category,

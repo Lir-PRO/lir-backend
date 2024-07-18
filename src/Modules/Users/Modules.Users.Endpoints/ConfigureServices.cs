@@ -22,6 +22,7 @@ public static class ConfigureServices
         services.AddScoped<SubscriptionMutation>();
 
         services.AddScoped<UserQuery>();
+        services.AddScoped<SubscriptionQuery>();
 
         var auth0Settings = configuration.GetSection("Auth0").Get<Auth0Settings>();
         services.AddAuthentication(options =>
