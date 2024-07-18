@@ -14,11 +14,13 @@ public class Query
     public Query(PostQuery post, 
         CategoryQuery category,
         CommentQuery comment, 
-        UserQuery user)
+        UserQuery user, 
+        SubscriptionQuery subscription)
     {
         Post = post;
         Category = category;
         Comment = comment;
         User = user;
+        Subscription = subscription;
     }
 }
