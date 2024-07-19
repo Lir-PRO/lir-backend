@@ -65,6 +65,8 @@ To get started with the project, follow these steps:
 - **Entity Framework Core**
 - **PostgreSQL**
 - **MassTransit**
+- **AutoMapper**
+- **MediatR**
 - **Auth0**
 
 ## Project Setup with Docker
