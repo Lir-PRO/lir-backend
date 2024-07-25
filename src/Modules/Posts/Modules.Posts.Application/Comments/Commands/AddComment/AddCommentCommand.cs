@@ -4,4 +4,4 @@ using Modules.Posts.Application.Common.Models;
 
 namespace Modules.Posts.Application.Comments.Commands.AddComment;
 
-public record AddCommentCommand(AddCommentInput input) : IRequest<CommentPayload>;
+public record AddCommentCommand(AddCommentInput Input) : IRequest<CommentPayload>;
