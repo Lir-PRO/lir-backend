@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Modules.Users.Domain.Interfaces;
 
-namespace Modules.Users.Application.Subscription.Commands.AddSubscription;
+namespace Modules.Users.Application.Subscriptions.Commands.AddSubscription;
 
 public class AddSubscriptionCommandHandler : IRequestHandler<AddSubscriptionCommand, bool>
 {

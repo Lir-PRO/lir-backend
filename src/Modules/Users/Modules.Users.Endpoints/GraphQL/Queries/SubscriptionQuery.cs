@@ -2,8 +2,8 @@
 using HotChocolate.Types;
 using MediatR;
 using Modules.Users.Application.Common.Payload;
-using Modules.Users.Application.Subscription.Queries.GetSubscribersByUserId;
-using Modules.Users.Application.Subscription.Queries.GetSubscriptionsByUserId;
+using Modules.Users.Application.Subscriptions.Queries.GetSubscribersByUserId;
+using Modules.Users.Application.Subscriptions.Queries.GetSubscriptionsByUserId;
 
 namespace Modules.Users.Endpoints.GraphQL.Queries;
 
