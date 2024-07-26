@@ -22,6 +22,11 @@ namespace Modules.Posts.Application.Posts.Commands.UpdatePost
         }
         public async Task<PostPayload> Handle(UpdatePostCommand request, CancellationToken cancellationToken)
         {
+            if (request == null || request.Input.PostId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
             var post = await _postRepository.GetPostByIdAsync(request.Input.PostId);
             post.Caption = request.Input.Caption;
             foreach (var postCategory in post.PostCategories)

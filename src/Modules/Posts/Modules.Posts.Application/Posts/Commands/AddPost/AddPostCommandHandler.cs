@@ -23,6 +23,11 @@ namespace Modules.Posts.Application.Posts.Commands.AddPost
 
         public async Task<PostPayload> Handle(AddPostCommand request, CancellationToken cancellationToken)
         {
+            if (string.IsNullOrEmpty(request.Input.UserId))
+            {
+                throw new ArgumentException();
+            }
+
             var post = new Post
             {
                 UserId = request.Input.UserId,

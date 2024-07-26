@@ -1,5 +1,5 @@
 ﻿using MediatR;
 
-namespace Modules.Users.Application.Subscription.Commands.DeleteSubscription;
+namespace Modules.Users.Application.Subscriptions.Commands.DeleteSubscription;
 
 public record DeleteSubscriptionCommand(string UserId, string SubscriberId) : IRequest<bool>;

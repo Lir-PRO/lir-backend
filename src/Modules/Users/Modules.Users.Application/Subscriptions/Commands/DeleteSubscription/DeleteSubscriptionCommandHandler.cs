@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Modules.Users.Domain.Interfaces;
 
-namespace Modules.Users.Application.Subscription.Commands.DeleteSubscription;
+namespace Modules.Users.Application.Subscriptions.Commands.DeleteSubscription;
 
 public class DeleteSubscriptionCommandHandler : IRequestHandler<DeleteSubscriptionCommand, bool>
 {

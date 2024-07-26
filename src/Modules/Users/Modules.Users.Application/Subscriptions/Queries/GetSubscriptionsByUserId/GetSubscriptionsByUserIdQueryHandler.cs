@@ -3,7 +3,7 @@ using MediatR;
 using Modules.Users.Application.Common.Payload;
 using Modules.Users.Domain.Interfaces;
 
-namespace Modules.Users.Application.Subscription.Queries.GetSubscriptionsByUserId;
+namespace Modules.Users.Application.Subscriptions.Queries.GetSubscriptionsByUserId;
 
 public class GetSubscriptionsByUserIdQueryHandler : IRequestHandler<GetSubscriptionsByUserIdQuery, IQueryable<UserPayload>>
 {

@@ -1,7 +1,7 @@
 ﻿using HotChocolate;
 using MediatR;
-using Modules.Users.Application.Subscription.Commands.AddSubscription;
-using Modules.Users.Application.Subscription.Commands.DeleteSubscription;
+using Modules.Users.Application.Subscriptions.Commands.AddSubscription;
+using Modules.Users.Application.Subscriptions.Commands.DeleteSubscription;
 
 namespace Modules.Users.Endpoints.GraphQL.Mutations;
 

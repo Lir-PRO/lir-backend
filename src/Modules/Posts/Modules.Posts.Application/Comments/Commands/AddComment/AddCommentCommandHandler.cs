@@ -19,11 +19,21 @@ public class AddCommentCommandHandler : IRequestHandler<AddCommentCommand, Comme
 
     public async Task<CommentPayload> Handle(AddCommentCommand request, CancellationToken cancellationToken)
     {
+        if (request == null || request.Input.PostId == Guid.Empty || string.IsNullOrEmpty(request.Input.UserId))
+        {
+            throw new ArgumentNullException(nameof(request));
+        }
+
+        if (string.IsNullOrEmpty(request.Input.Content))
+        {
+            throw new ArgumentException(nameof(request));
+        }
+
         var comment = new Comment
         {
-            UserId = request.input.UserId,
-            PostId = request.input.PostId,
-            Content = request.input.Content
+            UserId = request.Input.UserId,
+            PostId = request.Input.PostId,
+            Content = request.Input.Content
         };
 
         await _commentRepository.AddAsync(comment, cancellationToken);
