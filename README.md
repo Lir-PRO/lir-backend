@@ -29,7 +29,8 @@ src
 │       ├── Modules.Users.Domain
 │       ├── Modules.Users.Endpoints
 │       ├── Modules.Users.Infrastructure
-│       └── Modules.Users.Persistence
+│       ├── Modules.Users.Persistence
+│       └── Modules.Users.UnitTests
 ├── Lir.Api
 └── Common
 ```
