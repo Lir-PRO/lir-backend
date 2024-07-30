@@ -27,6 +27,16 @@ builder.Services.AddMassTransit(x =>
     });
 });
 
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy",
+        policy => { policy.AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowAnyHeader(); });
+});
+
 builder.Services.AddGraphQLServer()
     .AddAuthorization()
     .AddFiltering()
@@ -36,11 +46,9 @@ builder.Services.AddGraphQLServer()
 
 var app = builder.Build();
 
-app.UseCors(b => b.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
-
+app.UseCors("CorsPolicy");
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseWebSockets();
-app.UseHttpsRedirection();
 app.MapGraphQL();
 app.Run();
