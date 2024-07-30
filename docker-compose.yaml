@@ -1,19 +1,23 @@
 services:
-  lir_api:
+  lir.api:
     image: mariiaprylutska/lir_backend
     restart: always
     links:
-      - lir_db:lir_db
+      - lir.db:lir.db
     build:
       context: .
     depends_on:
-      - lir_db
+      - lir.db
     ports:
-      - 8080:8080
-  lir_db:
+      - 3000:8080
+    networks:
+      - app
+  lir.db:
     image: postgres:latest
     ports:
       - 5432:5432
+    networks:
+      - app
     volumes:
       - ~/apps/postgres:/var/lib/postgresql/data
     healthcheck:
@@ -26,4 +30,7 @@ services:
       - POSTGRES_DB=postgres
       - POSTGRES_PASSWORD=mysecretpassword
 volumes:
-  lir_db:
+  lir.db:
+networks:
+  app:
+    driver: bridge
