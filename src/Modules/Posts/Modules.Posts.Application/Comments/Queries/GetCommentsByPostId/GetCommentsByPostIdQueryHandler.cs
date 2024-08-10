@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
 using MediatR;
+using Modules.Posts.Application.Common;
 using Modules.Posts.Application.Common.Models;
 using Modules.Posts.Domain.Interfaces;
 
 namespace Modules.Posts.Application.Comments.Queries.GetCommentsByPostId;
 
-public class GetCommentsByPostIdQueryHandler : IRequestHandler<GetCommentsByPostIdQuery, IQueryable<CommentPayload>>
+public class GetCommentsByPostIdQueryHandler : IRequestHandler<GetCommentsByPostIdQuery, Response<IQueryable<CommentPayload>>>
 {
     private readonly ICommentRepository _commentRepository;
     private readonly IMapper _mapper;
@@ -16,7 +17,7 @@ public class GetCommentsByPostIdQueryHandler : IRequestHandler<GetCommentsByPost
         _mapper = mapper;
     }
 
-    public async Task<IQueryable<CommentPayload>> Handle(GetCommentsByPostIdQuery request, CancellationToken cancellationToken)
+    public async Task<Response<IQueryable<CommentPayload>>> Handle(GetCommentsByPostIdQuery request, CancellationToken cancellationToken)
     {
         var comments = await _commentRepository.GetCommentsByPostIdAsync(request.PostId);
 
@@ -27,6 +28,6 @@ public class GetCommentsByPostIdQueryHandler : IRequestHandler<GetCommentsByPost
             result.Add(_mapper.Map<CommentPayload>(comment));
         }
 
-        return result.AsQueryable();
+        return Response<IQueryable<CommentPayload>>.Success(result.AsQueryable());
     }
 }
