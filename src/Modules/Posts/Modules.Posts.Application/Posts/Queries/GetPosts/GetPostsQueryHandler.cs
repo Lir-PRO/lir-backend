@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Modules.Posts.Application.Common;
 using Modules.Posts.Application.Common.Interfaces;
 using Modules.Posts.Application.Common.Models;
 
 namespace Modules.Posts.Application.Posts.Queries.GetPosts
 {
-    public class GetPostsQueryHandler : IRequestHandler<GetPostsQuery, IQueryable<PostPayload>>
+    public class GetPostsQueryHandler : IRequestHandler<GetPostsQuery, Response<IQueryable<PostPayload>>>
     {
         private readonly IPostContext _context;
         private readonly IMapper _mapper;
@@ -17,12 +18,14 @@ namespace Modules.Posts.Application.Posts.Queries.GetPosts
             _mapper = mapper;
         }
 
-        public Task<IQueryable<PostPayload>> Handle(GetPostsQuery request, CancellationToken cancellationToken)
+        public Task<Response<IQueryable<PostPayload>>> Handle(GetPostsQuery request, CancellationToken cancellationToken)
         {
             var posts = _context.Posts.Include(p => p.PostCategories)
                 .ThenInclude(pc => pc.Category).AsQueryable();
 
-            return Task.FromResult(_mapper.Map<IQueryable<PostPayload>>(posts));
+            var payload = _mapper.Map<IQueryable<PostPayload>>(posts);
+
+            return Task.FromResult(Response<IQueryable<PostPayload>>.Success(payload));
         }
     }
 }
