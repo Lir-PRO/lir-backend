@@ -1,5 +1,6 @@
 using Lir.Api.GraphQL.Mutation;
 using Lir.Api.GraphQL.Query;
+using Lir.Api.Infrastructure;
 using MassTransit;
 using Modules.Chats.Endpoints;
 using Modules.Posts.Endpoints;
@@ -43,10 +44,14 @@ builder.Services.AddGraphQLServer()
     .AddSorting()
     .AddMutationType<Mutation>()
     .AddQueryType<Query>();
+builder.Services.AddProblemDetails();
+
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 var app = builder.Build();
 
 app.UseCors("CorsPolicy");
+app.UseExceptionHandler();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseWebSockets();
