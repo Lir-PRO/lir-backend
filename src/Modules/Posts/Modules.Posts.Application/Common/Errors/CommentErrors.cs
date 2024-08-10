@@ -14,6 +14,10 @@ public static class CommentErrors
         "Comments.NoInput",
         "Content can not be empty");
 
+    public static readonly Error DeleteFailure = new(
+        "Comments.DeleteFailure",
+        "Error occured deleting comment");
+
     public static readonly Error NotFound = new(
         "Comment.NotFound",
         "Comment not found");
