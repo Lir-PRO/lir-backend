@@ -1,13 +1,14 @@
 ﻿using Common.Events;
 using MassTransit;
 using MediatR;
+using Modules.Users.Application.Common.Errors;
 using Modules.Users.Application.Common.Interfaces;
 using Modules.Users.Domain.Entities;
 using Modules.Users.Domain.Interfaces;
 
 namespace Modules.Users.Application.Users.Commands.AddUser;
 
-public class AddUserCommandHandler : IRequestHandler<AddUserCommand, string>
+public class AddUserCommandHandler : IRequestHandler<AddUserCommand, Common.Response<string>>
 {
     private readonly IUserRepository _userRepository;
     private readonly IAuth0Service _auth0Service;
@@ -22,24 +23,40 @@ public class AddUserCommandHandler : IRequestHandler<AddUserCommand, string>
         _publishEndpoint = publishEndpoint;
     }
 
-    public async Task<string> Handle(AddUserCommand request, CancellationToken cancellationToken)
+    public async Task<Common.Response<string>> Handle(AddUserCommand request, CancellationToken cancellationToken)
     {
-        var auth0UserId = await _auth0Service.SignupUser(request.Input.Email, request.Input.Password);
-
-        var newUser = new User
+        try
         {
-            Id = auth0UserId,
-            Email = request.Input.Email,
-            Name = request.Input.Name,
-            Bio = request.Input.Bio,
-            Username = request.Input.Username,
-            ProfilePictureBase64 = request.Input.ProfilePictureBase64
-        };
+            if (await _userRepository.IsEmailAlreadyUsed(request.Input.Email))
+            {
+                return Common.Response<string>.Failure(UserErrors.EmailIsAlreadyUsed);
+            }
 
-        await _userRepository.AddAsync(newUser, cancellationToken);
+            if (await _userRepository.IsUsernameTaken(request.Input.Username))
+            {
+                return Common.Response<string>.Failure(UserErrors.UsernameIsTaken);
+            }
 
-        await _publishEndpoint.Publish(new UserCreatedEvent(newUser.Id));
+            var auth0UserId = await _auth0Service.SignupUser(request.Input.Email, request.Input.Password);
 
-        return newUser.Id;
+            var newUser = new User
+            {
+                Id = auth0UserId,
+                Email = request.Input.Email,
+                Name = request.Input.Name,
+                Bio = request.Input.Bio,
+                Username = request.Input.Username,
+                ProfilePictureBase64 = request.Input.ProfilePictureBase64
+            };
+
+            await _userRepository.AddAsync(newUser, cancellationToken);
+            await _publishEndpoint.Publish(new UserCreatedEvent(newUser.Id));
+
+            return Common.Response<string>.Success(auth0UserId);
+        }
+        catch (Exception ex)
+        {
+            return Common.Response<string>.Failure(UserErrors.AddUserFailure);
+        }
     }
 }
