@@ -57,7 +57,7 @@ public class AddCommentCommandHandlerTests
 
         // Assert
         _mockCommentRepository.Verify(cr => cr.AddAsync(It.IsAny<Comment>(), It.IsAny<CancellationToken>()), Times.Once);
-        Assert.AreEqual(commentPayload, result);
+        Assert.AreEqual(commentPayload, result.Data);
     }
 
     [Test]

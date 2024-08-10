@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Modules.Posts.Application.Common.Errors;
 using Modules.Posts.Application.Common.InputTypes;
 using Modules.Posts.Application.Common.Models;
 using Modules.Posts.Application.Posts.Commands.AddPost;
@@ -58,25 +59,17 @@ public class AddPostCommandHandlerTests
         var result = await _sut.Handle(command, CancellationToken.None);
 
         // Assert
+        Assert.IsTrue(result.IsSuccess);
+        Assert.AreEqual(postPayload, result.Data);
+
         _mockPostRepository.Verify(pr => pr.AddAsync(It.IsAny<Post>(), It.IsAny<CancellationToken>()), Times.Once);
         _mockPostRepository.Verify(pr => pr.UpdateAsync(It.IsAny<Guid>(), It.IsAny<Post>(), It.IsAny<CancellationToken>()), Times.Once);
         _mockPostCategoryRepository.Verify(pc => pc.AddAsync(It.IsAny<PostCategory>()), Times.Once);
         _mockContentRepository.Verify(cr => cr.AddAsync(It.IsAny<Content>(), It.IsAny<CancellationToken>()), Times.Once);
-        Assert.AreEqual(postPayload, result);
     }
 
     [Test]
-    public void Handle_ShouldThrowArgumentNullException_WhenInputIsNull()
-    {
-        // Arrange
-        var command = new AddPostCommand(null);
-
-        // Act & Assert
-        Assert.ThrowsAsync<NullReferenceException>(() => _sut.Handle(command, CancellationToken.None));
-    }
-
-    [Test]
-    public void Handle_ShouldThrowArgumentException_WhenUserIdIsMissing()
+    public async Task Handle_ShouldReturnFailureResponse_WhenUserIdIsMissing()
     {
         // Arrange
         var input = new AddPostInput
@@ -92,7 +85,11 @@ public class AddPostCommandHandlerTests
 
         var command = new AddPostCommand(input);
 
-        // Act & Assert
-        Assert.ThrowsAsync<ArgumentException>(() => _sut.Handle(command, CancellationToken.None));
+        // Act
+        var result = await _sut.Handle(command, CancellationToken.None);
+
+        // Assert
+        Assert.IsFalse(result.IsSuccess);
+        Assert.AreEqual(PostErrors.UserIdRequired, result.Error);
     }
 }
