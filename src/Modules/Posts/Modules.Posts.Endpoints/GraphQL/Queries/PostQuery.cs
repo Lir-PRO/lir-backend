@@ -1,6 +1,7 @@
 ﻿using HotChocolate;
 using HotChocolate.Types;
 using MediatR;
+using Modules.Posts.Application.Common;
 using Modules.Posts.Application.Common.Models;
 using Modules.Posts.Application.Posts.Queries.GetPosts;
 using Modules.Posts.Application.Posts.Queries.GetPostsByCategoryId;
@@ -13,7 +14,7 @@ namespace Modules.Posts.Endpoints.GraphQL.Queries
         [UsePaging(IncludeTotalCount = true)]
         [UseFiltering]
         [UseSorting]
-        public async Task<IQueryable<PostPayload>> GetPosts([Service] ISender mediatr)
+        public async Task<Response<IQueryable<PostPayload>>> GetPosts([Service] ISender mediatr)
         {
             return await mediatr.Send(new GetPostsQuery());
         }
@@ -21,7 +22,7 @@ namespace Modules.Posts.Endpoints.GraphQL.Queries
         [UsePaging(IncludeTotalCount = true)]
         [UseFiltering]
         [UseSorting]
-        public async Task<IQueryable<PostPayload>> GetPostsByCategoryId(Guid categoryId, [Service] ISender mediatr)
+        public async Task<Response<IQueryable<PostPayload>>> GetPostsByCategoryId(Guid categoryId, [Service] ISender mediatr)
         {
             return await mediatr.Send(new GetPostsByCategoryIdQuery(CategoryId: categoryId));
         }
@@ -29,7 +30,7 @@ namespace Modules.Posts.Endpoints.GraphQL.Queries
         [UsePaging(IncludeTotalCount = true)]
         [UseFiltering]
         [UseSorting]
-        public async Task<IQueryable<PostPayload>> GetPostsByUserId(string userId, [Service] ISender mediatr)
+        public async Task<Response<IQueryable<PostPayload>>> GetPostsByUserId(string userId, [Service] ISender mediatr)
         {
             return await mediatr.Send(new GetPostsByUserIdQuery(UserId: userId));
         }
