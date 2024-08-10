@@ -14,5 +14,7 @@ namespace Modules.Users.Domain.Interfaces
         Task AddAsync(User entity, CancellationToken cancellationToken);
         Task UpdateAsync(string id, User entity, CancellationToken cancellationToken);
         Task<bool> DeleteAsync(string id, CancellationToken cancellationToken);
+        Task<bool> IsUsernameTaken(string username);
+        Task<bool> IsEmailAlreadyUsed(string email);
     }
 }
