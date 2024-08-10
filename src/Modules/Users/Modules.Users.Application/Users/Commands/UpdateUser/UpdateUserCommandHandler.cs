@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using MediatR;
+using Modules.Users.Application.Common;
+using Modules.Users.Application.Common.Errors;
 using Modules.Users.Application.Common.Payload;
 using Modules.Users.Domain.Interfaces;
 
 namespace Modules.Users.Application.Users.Commands.UpdateUser;
 
-public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, UserPayload>
+public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Response<UserPayload>>
 {
     private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;
@@ -16,38 +18,35 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, UserP
         _mapper = mapper;
     }
 
-    public async Task<UserPayload> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
+    public async Task<Response<UserPayload>> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
     {
-        if (request == null || request.Input == null)
-        {
-            throw new ArgumentNullException(nameof(request), "Request or input cannot be null");
-        }
-
-        var user = await _userRepository.GetByIdAsync(request.Input.Id, cancellationToken);
-        if (user == null)
-        {
-            throw new InvalidOperationException($"User with ID {request.Input.Id} not found");
-        }
-
-        if (string.IsNullOrWhiteSpace(request.Input.Username))
-        {
-            throw new ArgumentException("Username is required", nameof(request.Input.Username));
-        }
-
-        user.Username = request.Input.Username;
-        user.Bio = request.Input.Bio;
-        user.Name = request.Input.Name;
-        user.ProfilePictureBase64 = request.Input.ProfilePictureBase64;
-
         try
         {
+            if (request == null || request.Input == null)
+            {
+                return Response<UserPayload>.Failure(UserErrors.InputIsNull);
+            }
+
+            var user = await _userRepository.GetByIdAsync(request.Input.Id, cancellationToken);
+            if (user == null)
+            {
+                return Response<UserPayload>.Failure(UserErrors.NotFound);
+            }
+
+            user.Username = request.Input.Username;
+            user.Bio = request.Input.Bio;
+            user.Name = request.Input.Name;
+            user.ProfilePictureBase64 = request.Input.ProfilePictureBase64;
+
             await _userRepository.UpdateAsync(user.Id, user, cancellationToken);
+
+            var userPayload = _mapper.Map<UserPayload>(user);
+
+            return Response<UserPayload>.Success(userPayload);
         }
         catch (Exception ex)
         {
-            throw new Exception("An error occurred while updating the user", ex);
+            return Response<UserPayload>.Failure(UserErrors.UpdateUserFailure);
         }
-
-        return _mapper.Map<UserPayload>(user);
     }
 }
