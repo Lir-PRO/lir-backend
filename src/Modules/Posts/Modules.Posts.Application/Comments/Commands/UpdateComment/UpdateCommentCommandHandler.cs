@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using MediatR;
+using Modules.Posts.Application.Common;
+using Modules.Posts.Application.Common.Errors;
 using Modules.Posts.Application.Common.Models;
 using Modules.Posts.Domain.Interfaces;
 
 namespace Modules.Posts.Application.Comments.Commands.UpdateComment;
 
-public class UpdateCommentCommandHandler : IRequestHandler<UpdateCommentCommand, CommentPayload>
+public class UpdateCommentCommandHandler : IRequestHandler<UpdateCommentCommand, Response<CommentPayload>>
 {
     private readonly ICommentRepository _commentRepository;
     private readonly IMapper _mapper;
@@ -16,34 +18,35 @@ public class UpdateCommentCommandHandler : IRequestHandler<UpdateCommentCommand,
         _mapper = mapper;
     }
 
-    public async Task<CommentPayload> Handle(UpdateCommentCommand request, CancellationToken cancellationToken)
+    public async Task<Response<CommentPayload>> Handle(UpdateCommentCommand request, CancellationToken cancellationToken)
     {
-        if (request == null || request.Input == null)
+        if (request.Input == null)
         {
-            throw new ArgumentNullException(nameof(request));
+            return Response<CommentPayload>.Failure(CommentErrors.NullInput);
         }
 
         if (request.Input.CommentId == Guid.Empty)
         {
-            throw new ArgumentException("Invalid comment ID", nameof(request.Input.CommentId));
+            return Response<CommentPayload>.Failure(CommentErrors.CommentIdRequired);
         }
 
         var comment = await _commentRepository.GetByIdAsync(request.Input.CommentId);
 
-        {}
         if (comment == null)
         {
-            throw new InvalidOperationException($"Comment with ID {request.Input.CommentId} does not exist.");
+            return Response<CommentPayload>.Failure(CommentErrors.NotFound);
         }
 
         if (string.IsNullOrWhiteSpace(request.Input.Content))
         {
-            throw new ArgumentException("Content cannot be null or whitespace.", nameof(request.Input.Content));
+            return Response<CommentPayload>.Failure(CommentErrors.NoContent);
         }
 
         comment.Content = request.Input.Content;
         await _commentRepository.UpdateAsync(comment.Id, comment, cancellationToken);
+        
+        var payload = _mapper.Map<CommentPayload>(comment);
 
-        return _mapper.Map<CommentPayload>(comment);
+        return Response<CommentPayload>.Success(payload);
     }
 }
