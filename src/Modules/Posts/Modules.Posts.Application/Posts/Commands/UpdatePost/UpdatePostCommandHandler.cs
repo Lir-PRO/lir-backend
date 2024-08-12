@@ -1,12 +1,14 @@
 ﻿using AutoMapper;
+using Common;
 using MediatR;
+using Modules.Posts.Application.Common.Errors;
 using Modules.Posts.Application.Common.Models;
 using Modules.Posts.Domain.Entities;
 using Modules.Posts.Domain.Interfaces;
 
 namespace Modules.Posts.Application.Posts.Commands.UpdatePost
 {
-    public class UpdatePostCommandHandler : IRequestHandler<UpdatePostCommand, PostPayload>
+    public class UpdatePostCommandHandler : IRequestHandler<UpdatePostCommand, Response<PostPayload>>
     {
         private readonly IPostRepository _postRepository;
         private readonly IContentRepository _contentRepository;
@@ -20,11 +22,12 @@ namespace Modules.Posts.Application.Posts.Commands.UpdatePost
             _contentRepository = contentRepository;
             _postRepository = postRepository;
         }
-        public async Task<PostPayload> Handle(UpdatePostCommand request, CancellationToken cancellationToken)
+        public async Task<Response<PostPayload>> Handle(UpdatePostCommand request, CancellationToken cancellationToken)
         {
-            if (request == null || request.Input.PostId == Guid.Empty)
+
+            if (request.Input.PostId == Guid.Empty)
             {
-                throw new ArgumentNullException(nameof(request));
+                return Response<PostPayload>.Failure(PostErrors.NullInput);
             }
 
             var post = await _postRepository.GetPostByIdAsync(request.Input.PostId);
@@ -62,7 +65,9 @@ namespace Modules.Posts.Application.Posts.Commands.UpdatePost
             }
 
             await _postRepository.UpdateAsync(post.Id, post, cancellationToken);
-            return _mapper.Map<PostPayload>(post);
+            var payload = _mapper.Map<PostPayload>(post);
+
+            return Response<PostPayload>.Success(payload);
         }
     }
 }

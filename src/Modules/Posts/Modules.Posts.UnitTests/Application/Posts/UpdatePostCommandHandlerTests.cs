@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Modules.Posts.Application.Common.Errors;
 using Modules.Posts.Application.Common.InputTypes;
 using Modules.Posts.Application.Common.Models;
 using Modules.Posts.Application.Posts.Commands.UpdatePost;
@@ -67,22 +68,17 @@ public class UpdatePostCommandHandlerTests
         var result = await _sut.Handle(new UpdatePostCommand(input), CancellationToken.None);
 
         // Assert
+        Assert.IsTrue(result.IsSuccess);
+        Assert.AreEqual(postPayload, result.Data);
+
         _mockPostRepository.Verify(r => r.UpdateAsync(postId, post, It.IsAny<CancellationToken>()), Times.Once);
         _mockPostCategoryRepository.Verify(pc => pc.AddAsync(It.IsAny<PostCategory>()), Times.Once);
         _mockContentRepository.Verify(cr => cr.AddAsync(It.IsAny<Content>(), It.IsAny<CancellationToken>()), Times.Once);
         _mockContentRepository.Verify(cr => cr.DeleteAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()), Times.Once);
-        Assert.AreEqual(postPayload, result);
     }
 
     [Test]
-    public void Handle_ShouldThrowArgumentNullException_WhenInputIsNull()
-    {
-        // Act & Assert
-        Assert.ThrowsAsync<ArgumentNullException>(() => _sut.Handle(null, CancellationToken.None));
-    }
-
-    [Test]
-    public void Handle_ShouldThrowArgumentException_WhenPostIdIsInvalid()
+    public async Task Handle_ShouldReturnFailureResponse_WhenPostIdIsInvalid()
     {
         // Arrange
         var input = new UpdatePostInput
@@ -96,7 +92,11 @@ public class UpdatePostCommandHandlerTests
             }
         };
 
-        // Act & Assert
-        Assert.ThrowsAsync<ArgumentNullException>(() => _sut.Handle(new UpdatePostCommand(input), CancellationToken.None));
+        // Act
+        var result = await _sut.Handle(new UpdatePostCommand(input), CancellationToken.None);
+
+        // Assert
+        Assert.IsFalse(result.IsSuccess);
+        Assert.AreEqual(PostErrors.NullInput, result.Error);
     }
 }

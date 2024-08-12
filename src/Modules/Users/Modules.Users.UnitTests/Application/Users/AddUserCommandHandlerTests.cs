@@ -63,7 +63,7 @@ public class AddUserCommandHandlerTests
         var result = await _handler.Handle(command, CancellationToken.None);
 
         // Assert
-        Assert.AreEqual(auth0UserId, result);
+        Assert.AreEqual(auth0UserId, result.Data);
 
         _mockAuth0Service.Verify(x => x.SignupUser(input.Email, input.Password), Times.Once);
 

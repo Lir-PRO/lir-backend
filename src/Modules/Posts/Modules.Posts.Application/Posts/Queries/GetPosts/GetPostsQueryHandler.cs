@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Modules.Posts.Application.Common;
 using Modules.Posts.Application.Common.Interfaces;
 using Modules.Posts.Application.Common.Models;
 
@@ -22,7 +23,9 @@ namespace Modules.Posts.Application.Posts.Queries.GetPosts
             var posts = _context.Posts.Include(p => p.PostCategories)
                 .ThenInclude(pc => pc.Category).AsQueryable();
 
-            return Task.FromResult(_mapper.Map<IQueryable<PostPayload>>(posts));
+            var payload = _mapper.Map<IQueryable<PostPayload>>(posts);
+
+            return Task.FromResult(payload);
         }
     }
 }

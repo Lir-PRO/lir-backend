@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Modules.Posts.Application.Comments.Commands.UpdateComment;
+using Modules.Posts.Application.Common.Errors;
 using Modules.Posts.Application.Common.InputTypes;
 using Modules.Posts.Application.Common.Models;
 using Modules.Posts.Domain.Entities;
@@ -48,25 +49,34 @@ public class UpdateCommentCommandHandlerTests
         };
 
         _mockCommentRepository.Setup(r => r.GetByIdAsync(commentId)).ReturnsAsync(existingComment);
-        _mockMapper.Setup(m => m.Map<CommentPayload>(It.IsAny<Comment>())).Returns(updatedCommentPayload);
+        _mockMapper.Setup(m => m.Map<CommentPayload>(existingComment)).Returns(updatedCommentPayload);
 
         // Act
         var result = await _sut.Handle(new UpdateCommentCommand(input), CancellationToken.None);
 
         // Assert
+        Assert.IsTrue(result.IsSuccess);
+        Assert.AreEqual(updatedCommentPayload, result.Data);
+
         _mockCommentRepository.Verify(r => r.UpdateAsync(commentId, existingComment, It.IsAny<CancellationToken>()), Times.Once);
-        Assert.AreEqual(updatedCommentPayload, result);
     }
 
     [Test]
-    public void Handle_ShouldThrowArgumentNullException_WhenInputIsNull()
+    public async Task Handle_ShouldReturnFailureResponse_WhenInputIsNull()
     {
-        // Act & Assert
-        Assert.ThrowsAsync<ArgumentNullException>(() => _sut.Handle(null, CancellationToken.None));
+        // Arrange
+        var command = new UpdateCommentCommand(null);
+
+        // Act
+        var result = await _sut.Handle(command, CancellationToken.None);
+
+        // Assert
+        Assert.IsFalse(result.IsSuccess);
+        Assert.AreEqual(CommentErrors.NullInput, result.Error);
     }
 
     [Test]
-    public void Handle_ShouldThrowArgumentException_WhenCommentIdIsInvalid()
+    public async Task Handle_ShouldReturnFailureResponse_WhenCommentIdIsInvalid()
     {
         // Arrange
         var input = new UpdateCommentInput
@@ -75,12 +85,18 @@ public class UpdateCommentCommandHandlerTests
             Content = "Updated content"
         };
 
-        // Act & Assert
-        Assert.ThrowsAsync<ArgumentException>(() => _sut.Handle(new UpdateCommentCommand(input), CancellationToken.None));
+        var command = new UpdateCommentCommand(input);
+
+        // Act
+        var result = await _sut.Handle(command, CancellationToken.None);
+
+        // Assert
+        Assert.IsFalse(result.IsSuccess);
+        Assert.AreEqual(CommentErrors.CommentIdRequired, result.Error);
     }
 
     [Test]
-    public void Handle_ShouldThrowInvalidOperationException_WhenCommentDoesNotExist()
+    public async Task Handle_ShouldReturnFailureResponse_WhenCommentDoesNotExist()
     {
         // Arrange
         var commentId = Guid.NewGuid();
@@ -92,7 +108,42 @@ public class UpdateCommentCommandHandlerTests
 
         _mockCommentRepository.Setup(r => r.GetByIdAsync(commentId)).ReturnsAsync((Comment)null);
 
-        // Act & Assert
-        Assert.ThrowsAsync<InvalidOperationException>(() => _sut.Handle(new UpdateCommentCommand(input), CancellationToken.None));
+        var command = new UpdateCommentCommand(input);
+
+        // Act
+        var result = await _sut.Handle(command, CancellationToken.None);
+
+        // Assert
+        Assert.IsFalse(result.IsSuccess);
+        Assert.AreEqual(CommentErrors.NotFound, result.Error);
+    }
+
+    [Test]
+    public async Task Handle_ShouldReturnFailureResponse_WhenContentIsNullOrWhiteSpace()
+    {
+        // Arrange
+        var commentId = Guid.NewGuid();
+        var input = new UpdateCommentInput
+        {
+            CommentId = commentId,
+            Content = "" // Invalid content
+        };
+
+        var existingComment = new Comment
+        {
+            Id = commentId,
+            Content = "Old content"
+        };
+
+        _mockCommentRepository.Setup(r => r.GetByIdAsync(commentId)).ReturnsAsync(existingComment);
+
+        var command = new UpdateCommentCommand(input);
+
+        // Act
+        var result = await _sut.Handle(command, CancellationToken.None);
+
+        // Assert
+        Assert.IsFalse(result.IsSuccess);
+        Assert.AreEqual(CommentErrors.NoContent, result.Error);
     }
 }

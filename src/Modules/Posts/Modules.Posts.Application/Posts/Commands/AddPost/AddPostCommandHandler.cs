@@ -1,12 +1,14 @@
 ﻿using AutoMapper;
+using Common;
 using MediatR;
+using Modules.Posts.Application.Common.Errors;
 using Modules.Posts.Application.Common.Models;
 using Modules.Posts.Domain.Entities;
 using Modules.Posts.Domain.Interfaces;
 
 namespace Modules.Posts.Application.Posts.Commands.AddPost
 {
-    public class AddPostCommandHandler : IRequestHandler<AddPostCommand, PostPayload>
+    public class AddPostCommandHandler : IRequestHandler<AddPostCommand, Response<PostPayload>>
     {
         private readonly IPostRepository _postRepository;
         private readonly IContentRepository _contentRepository;
@@ -21,11 +23,11 @@ namespace Modules.Posts.Application.Posts.Commands.AddPost
             _mapper = mapper;
         }
 
-        public async Task<PostPayload> Handle(AddPostCommand request, CancellationToken cancellationToken)
+        public async Task<Response<PostPayload>> Handle(AddPostCommand request, CancellationToken cancellationToken)
         {
             if (string.IsNullOrEmpty(request.Input.UserId))
             {
-                throw new ArgumentException();
+                return Response<PostPayload>.Failure(PostErrors.UserIdRequired);
             }
 
             var post = new Post
@@ -59,7 +61,9 @@ namespace Modules.Posts.Application.Posts.Commands.AddPost
             }
 
             await _postRepository.UpdateAsync(post.Id, post, cancellationToken);
-            return _mapper.Map<PostPayload>(post);
+            var payload = _mapper.Map<PostPayload>(post);
+
+            return Response<PostPayload>.Success(payload);
         }
     }
 }

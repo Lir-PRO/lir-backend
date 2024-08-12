@@ -80,5 +80,15 @@ namespace Modules.Users.Persistence.Repositories
         {
             return await Task.FromResult(_context.Users.AsQueryable());
         }
+
+        public async Task<bool> IsUsernameTaken(string username)
+        {
+            return await _context.Users.AnyAsync(u => u.Username == username);
+        }
+
+        public async Task<bool> IsEmailAlreadyUsed(string email)
+        {
+            return await _context.Users.AnyAsync(u => u.Email == email);
+        }
     }
 }

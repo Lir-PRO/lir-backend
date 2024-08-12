@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Common;
 using MediatR;
 using Modules.Posts.Application.Common.Models;
 using Modules.Posts.Domain.Entities;
@@ -6,7 +7,7 @@ using Modules.Posts.Domain.Interfaces;
 
 namespace Modules.Posts.Application.Comments.Commands.AddComment;
 
-public class AddCommentCommandHandler : IRequestHandler<AddCommentCommand, CommentPayload>
+public class AddCommentCommandHandler : IRequestHandler<AddCommentCommand, Response<CommentPayload>>
 {
     private readonly ICommentRepository _commentRepository;
     private readonly IMapper _mapper;
@@ -17,7 +18,7 @@ public class AddCommentCommandHandler : IRequestHandler<AddCommentCommand, Comme
         _mapper = mapper;
     }
 
-    public async Task<CommentPayload> Handle(AddCommentCommand request, CancellationToken cancellationToken)
+    public async Task<Response<CommentPayload>> Handle(AddCommentCommand request, CancellationToken cancellationToken)
     {
         if (request == null || request.Input.PostId == Guid.Empty || string.IsNullOrEmpty(request.Input.UserId))
         {
@@ -38,6 +39,7 @@ public class AddCommentCommandHandler : IRequestHandler<AddCommentCommand, Comme
 
         await _commentRepository.AddAsync(comment, cancellationToken);
 
-        return _mapper.Map<CommentPayload>(comment);
+        var payload = _mapper.Map<CommentPayload>(comment);
+        return Response<CommentPayload>.Success(payload);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Modules.Posts.Application.Common;
 using Modules.Posts.Application.Common.Interfaces;
 using Modules.Posts.Application.Common.Models;
 
@@ -20,7 +21,9 @@ namespace Modules.Posts.Application.Posts.Queries.GetPostsByCategoryId
             var posts = _context.PostCategories.Where(pc => pc.Category.Id == request.CategoryId)
                 .Select(pc => pc.Post).AsQueryable(); ;
 
-            return Task.FromResult(_mapper.Map<IQueryable<PostPayload>>(posts));
+            var payload = _mapper.Map<IQueryable<PostPayload>>(posts);
+
+            return Task.FromResult(payload);
         }
     }
 }

@@ -2,6 +2,7 @@
 using HotChocolate.Types;
 using MediatR;
 using Modules.Posts.Application.Comments.Queries.GetCommentsByPostId;
+using Modules.Posts.Application.Common;
 using Modules.Posts.Application.Common.Models;
 
 namespace Modules.Posts.Endpoints.GraphQL.Queries;
