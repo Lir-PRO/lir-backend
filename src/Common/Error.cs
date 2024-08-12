@@ -1,4 +1,4 @@
-﻿namespace Modules.Posts.Application.Common.Errors;
+﻿namespace Common;
 
 public class Error
 {

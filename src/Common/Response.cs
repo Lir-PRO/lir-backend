@@ -1,6 +1,4 @@
-﻿using Modules.Posts.Application.Common.Errors;
-
-namespace Modules.Posts.Application.Common;
+﻿namespace Common;
 
 public class Response<T>
 {

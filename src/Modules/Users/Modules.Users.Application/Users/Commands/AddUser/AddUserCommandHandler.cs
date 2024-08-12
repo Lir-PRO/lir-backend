@@ -8,7 +8,7 @@ using Modules.Users.Domain.Interfaces;
 
 namespace Modules.Users.Application.Users.Commands.AddUser;
 
-public class AddUserCommandHandler : IRequestHandler<AddUserCommand, Common.Response<string>>
+public class AddUserCommandHandler : IRequestHandler<AddUserCommand, global::Common.Response<string>>
 {
     private readonly IUserRepository _userRepository;
     private readonly IAuth0Service _auth0Service;
@@ -23,18 +23,18 @@ public class AddUserCommandHandler : IRequestHandler<AddUserCommand, Common.Resp
         _publishEndpoint = publishEndpoint;
     }
 
-    public async Task<Common.Response<string>> Handle(AddUserCommand request, CancellationToken cancellationToken)
+    public async Task<global::Common.Response<string>> Handle(AddUserCommand request, CancellationToken cancellationToken)
     {
         try
         {
             if (await _userRepository.IsEmailAlreadyUsed(request.Input.Email))
             {
-                return Common.Response<string>.Failure(UserErrors.EmailIsAlreadyUsed);
+                return global::Common.Response<string>.Failure(UserErrors.EmailIsAlreadyUsed);
             }
 
             if (await _userRepository.IsUsernameTaken(request.Input.Username))
             {
-                return Common.Response<string>.Failure(UserErrors.UsernameIsTaken);
+                return global::Common.Response<string>.Failure(UserErrors.UsernameIsTaken);
             }
 
             var auth0UserId = await _auth0Service.SignupUser(request.Input.Email, request.Input.Password);
@@ -52,11 +52,11 @@ public class AddUserCommandHandler : IRequestHandler<AddUserCommand, Common.Resp
             await _userRepository.AddAsync(newUser, cancellationToken);
             await _publishEndpoint.Publish(new UserCreatedEvent(newUser.Id));
 
-            return Common.Response<string>.Success(auth0UserId);
+            return global::Common.Response<string>.Success(auth0UserId);
         }
         catch (Exception ex)
         {
-            return Common.Response<string>.Failure(UserErrors.AddUserFailure);
+            return global::Common.Response<string>.Failure(UserErrors.AddUserFailure);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using HotChocolate;
+﻿using Common;
+using HotChocolate;
 using MediatR;
 using Modules.Posts.Application.Comments.Commands.AddComment;
 using Modules.Posts.Application.Comments.Commands.DeleteComment;

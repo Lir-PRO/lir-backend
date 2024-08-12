@@ -6,7 +6,7 @@ using Modules.Posts.Domain.Interfaces;
 
 namespace Modules.Posts.Application.Comments.Queries.GetCommentsByPostId;
 
-public class GetCommentsByPostIdQueryHandler : IRequestHandler<GetCommentsByPostIdQuery, Response<IQueryable<CommentPayload>>>
+public class GetCommentsByPostIdQueryHandler : IRequestHandler<GetCommentsByPostIdQuery, IQueryable<CommentPayload>>
 {
     private readonly ICommentRepository _commentRepository;
     private readonly IMapper _mapper;
@@ -17,7 +17,7 @@ public class GetCommentsByPostIdQueryHandler : IRequestHandler<GetCommentsByPost
         _mapper = mapper;
     }
 
-    public async Task<Response<IQueryable<CommentPayload>>> Handle(GetCommentsByPostIdQuery request, CancellationToken cancellationToken)
+    public async Task<IQueryable<CommentPayload>> Handle(GetCommentsByPostIdQuery request, CancellationToken cancellationToken)
     {
         var comments = await _commentRepository.GetCommentsByPostIdAsync(request.PostId);
 
@@ -28,6 +28,6 @@ public class GetCommentsByPostIdQueryHandler : IRequestHandler<GetCommentsByPost
             result.Add(_mapper.Map<CommentPayload>(comment));
         }
 
-        return Response<IQueryable<CommentPayload>>.Success(result.AsQueryable());
+        return result.AsQueryable();
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace Modules.Users.Application.Common.Errors;
+﻿using Common;
+
+namespace Modules.Users.Application.Common.Errors;
 
 public static class UserErrors
 {

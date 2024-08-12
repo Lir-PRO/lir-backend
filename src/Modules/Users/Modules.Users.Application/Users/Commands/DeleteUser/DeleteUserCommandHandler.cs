@@ -6,7 +6,7 @@ using Modules.Users.Application.Common.Interfaces;
 using Modules.Users.Domain.Interfaces;
 
 namespace Modules.Users.Application.Users.Commands.DeleteUser;
-public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, Common.Response<bool>>
+public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, global::Common.Response<bool>>
 {
     private readonly IUserRepository _userRepository;
     private readonly IPublishEndpoint _publishEndpoint;
@@ -19,13 +19,13 @@ public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, Commo
         _auth0Service = auth0Service;
     }
 
-    public async Task<Common.Response<bool>> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
+    public async Task<global::Common.Response<bool>> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
     {
         try
         {
             if (!await _auth0Service.DeleteUser(request.Id))
             {
-                return  Common.Response<bool>.Failure(UserErrors.DeleteUserFailureAuth0);
+                return global::Common.Response<bool>.Failure(UserErrors.DeleteUserFailureAuth0);
             }
 
             var result = await _userRepository.DeleteAsync(request.Id, cancellationToken);
@@ -36,12 +36,12 @@ public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, Commo
             }
 
             return result
-                ? Common.Response<bool>.Success(result)
-                : Common.Response<bool>.Failure(UserErrors.DeleteUserFailure);
+                ? global::Common.Response<bool>.Success(result)
+                : global::Common.Response<bool>.Failure(UserErrors.DeleteUserFailure);
         }
         catch (Exception ex)
         {
-            return Common.Response<bool>.Failure(UserErrors.DeleteUserFailure);
+            return global::Common.Response<bool>.Failure(UserErrors.DeleteUserFailure);
         }
     }
 }

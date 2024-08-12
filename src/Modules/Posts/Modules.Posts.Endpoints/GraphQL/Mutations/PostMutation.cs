@@ -1,4 +1,5 @@
-﻿using HotChocolate;
+﻿using Common;
+using HotChocolate;
 using MediatR;
 using Modules.Posts.Application.Common;
 using Modules.Posts.Application.Common.InputTypes;

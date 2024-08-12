@@ -11,7 +11,7 @@ public class CommentQuery
     [UsePaging(IncludeTotalCount = true)]
     [UseFiltering]
     [UseSorting]
-    public async Task<Response<IQueryable<CommentPayload>>> GetCommentsByPostId(Guid postId, [Service] ISender mediatr)
+    public async Task<IQueryable<CommentPayload>> GetCommentsByPostId(Guid postId, [Service] ISender mediatr)
     {
         return await mediatr.Send(new GetCommentsByPostIdQuery(postId));
     }

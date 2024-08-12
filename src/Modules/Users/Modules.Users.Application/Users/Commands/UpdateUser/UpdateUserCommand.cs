@@ -1,5 +1,5 @@
-﻿using MediatR;
-using Modules.Users.Application.Common;
+﻿using Common;
+using MediatR;
 using Modules.Users.Application.Common.Input;
 using Modules.Users.Application.Common.Payload;
 

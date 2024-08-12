@@ -1,5 +1,5 @@
-﻿using MediatR;
-using Modules.Posts.Application.Common;
+﻿using Common;
+using MediatR;
 using Modules.Posts.Application.Common.InputTypes;
 using Modules.Posts.Application.Common.Models;
 

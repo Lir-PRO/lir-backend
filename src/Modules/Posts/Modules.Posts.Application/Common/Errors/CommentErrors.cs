@@ -1,24 +1,26 @@
-﻿namespace Modules.Posts.Application.Common.Errors;
+﻿using Common;
+
+namespace Modules.Posts.Application.Common.Errors;
 
 public static class CommentErrors
 {
     public static readonly Error CommentIdRequired = new(
-        "Comments.CommentIdRequired",
-        "Comment Id is required");
+        (string)"Comments.CommentIdRequired",
+        (string?)"Comment Id is required");
 
     public static readonly Error NullInput = new(
-        "Comments.NullInput",
-        "Input can not be null");
+        (string)"Comments.NullInput",
+        (string?)"Input can not be null");
 
     public static readonly Error NoContent = new(
-        "Comments.NoInput",
-        "Content can not be empty");
+        (string)"Comments.NoInput",
+        (string?)"Content can not be empty");
 
     public static readonly Error DeleteFailure = new(
-        "Comments.DeleteFailure",
-        "Error occured deleting comment");
+        (string)"Comments.DeleteFailure",
+        (string?)"Error occured deleting comment");
 
     public static readonly Error NotFound = new(
-        "Comment.NotFound",
-        "Comment not found");
+        (string)"Comment.NotFound",
+        (string?)"Comment not found");
 }

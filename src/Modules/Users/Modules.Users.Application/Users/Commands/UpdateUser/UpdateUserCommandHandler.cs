@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using Common;
 using MediatR;
-using Modules.Users.Application.Common;
 using Modules.Users.Application.Common.Errors;
 using Modules.Users.Application.Common.Payload;
 using Modules.Users.Domain.Interfaces;

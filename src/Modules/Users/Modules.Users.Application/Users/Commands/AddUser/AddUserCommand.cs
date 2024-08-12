@@ -1,5 +1,5 @@
-﻿using MediatR;
-using Modules.Users.Application.Common;
+﻿using Common;
+using MediatR;
 using Modules.Users.Application.Common.Input;
 
 namespace Modules.Users.Application.Users.Commands.AddUser;
