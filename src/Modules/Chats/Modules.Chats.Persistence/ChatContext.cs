@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Modules.Chats.Application.Common.Interfaces;
 using Modules.Chats.Domain.Entities;
 using Modules.Chats.Persistence.Configurations;
 
 namespace Modules.Chats.Persistence;
 
-public class ChatContext : DbContext
+public class ChatContext : DbContext, IChatContext
 {
     public ChatContext(DbContextOptions<ChatContext> options) : base(options)
     {

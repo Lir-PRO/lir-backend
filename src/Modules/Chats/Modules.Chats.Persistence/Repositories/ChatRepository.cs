@@ -16,5 +16,26 @@ namespace Modules.Chats.Persistence.Repositories
         {
             return await _context.UserChats.Where(uc => uc.UserId == userId).Select(n => n.Chat).ToListAsync();
         }
+
+        public async Task<Guid> AddAsync(List<string> participantsIds)
+        {
+            var chat = await _context.Chats.AddAsync(new Chat());
+            await _context.SaveChangesAsync();
+
+            foreach (var participantId in participantsIds)
+            {
+                var userChat = new UserChat()
+                {
+                    UserId = participantId,
+                    ChatId = chat.Entity.Id
+                };
+
+                await _context.UserChats.AddAsync(userChat);
+            }
+
+            await _context.SaveChangesAsync();
+
+            return chat.Entity.Id;
+        }
     }
 }
