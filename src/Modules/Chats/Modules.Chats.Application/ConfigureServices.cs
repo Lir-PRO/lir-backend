@@ -8,6 +8,8 @@ public static class ConfigureServices
 {
     public static IServiceCollection AddChatsApplicationServices(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
         services.AddMediatR(options =>
         {
             options.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
