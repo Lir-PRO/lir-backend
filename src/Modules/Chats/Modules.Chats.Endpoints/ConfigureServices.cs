@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Modules.Chats.Application;
+using Modules.Chats.Endpoints.GraphQL.Mutations;
 using Modules.Chats.Infrastructure;
 using Modules.Chats.Persistence;
 
@@ -13,6 +14,9 @@ public static class ConfigureServices
         await services.AddChatsPersistenceServices(configuration);
         services.AddChatsApplicationServices(configuration);
         services.AddChatsInfrastructureServices(configuration);
+
+        services.AddScoped<ChatMutation>();
+        services.AddScoped<MessageMutation>();
 
         return services;
     }
