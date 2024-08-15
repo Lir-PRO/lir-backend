@@ -7,12 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="HotChocolate" Version="13.9.6" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
+    <Compile Remove="GraphQL\Types\**" />
+    <EmbeddedResource Remove="GraphQL\Types\**" />
+    <None Remove="GraphQL\Types\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="GraphQL\Types\" />
+    <PackageReference Include="HotChocolate" Version="13.9.6" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>
