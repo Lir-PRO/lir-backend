@@ -14,7 +14,13 @@ namespace Modules.Chats.Persistence.Repositories
 
         public async Task<IEnumerable<Chat>> GetChatsByUserIdAsync(string userId)
         {
-            return await _context.UserChats.Where(uc => uc.UserId == userId).Select(n => n.Chat).ToListAsync();
+            var chats = await _context.UserChats.Where(uc => uc.UserId == userId).Select(n => n.Chat).ToListAsync();
+            foreach (var chat in chats)
+            {
+                chat.UserChats = await _context.UserChats.Where(uc => uc.ChatId == chat.Id).ToListAsync();
+            }
+
+            return chats;
         }
 
         public async Task<Guid> AddAsync(List<string> participantsIds)

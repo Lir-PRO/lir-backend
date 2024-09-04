@@ -1,8 +1,11 @@
 using Lir.Api.GraphQL.Mutation;
 using Lir.Api.GraphQL.Query;
+using Lir.Api.GraphQL.Subscription;
 using Lir.Api.Infrastructure;
 using MassTransit;
 using Modules.Chats.Endpoints;
+using Modules.Chats.Endpoints.GraphQL.Mutations;
+using Modules.Chats.Endpoints.GraphQL.Subscriptions;
 using Modules.Posts.Endpoints;
 using Modules.Users.Endpoints;
 
@@ -43,17 +46,22 @@ builder.Services.AddGraphQLServer()
     .AddFiltering()
     .AddSorting()
     .AddMutationType<Mutation>()
-    .AddQueryType<Query>();
+    .AddQueryType<Query>()
+    .AddSubscriptionType<ChatSubscriptions>()
+    .AddInMemorySubscriptions();
 builder.Services.AddProblemDetails();
 
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 var app = builder.Build();
 
+app.UseWebSockets();
+app.UseRouting();
 app.UseCors("CorsPolicy");
 app.UseExceptionHandler();
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseWebSockets();
+
 app.MapGraphQL();
+
 app.Run();

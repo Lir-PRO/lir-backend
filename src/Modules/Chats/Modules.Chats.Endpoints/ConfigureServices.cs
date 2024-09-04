@@ -2,6 +2,8 @@
 using Microsoft.Extensions.Configuration;
 using Modules.Chats.Application;
 using Modules.Chats.Endpoints.GraphQL.Mutations;
+using Modules.Chats.Endpoints.GraphQL.Queries;
+using Modules.Chats.Endpoints.GraphQL.Subscriptions;
 using Modules.Chats.Infrastructure;
 using Modules.Chats.Persistence;
 
@@ -17,6 +19,10 @@ public static class ConfigureServices
 
         services.AddScoped<ChatMutation>();
         services.AddScoped<MessageMutation>();
+
+        services.AddScoped<ChatQuery>();
+
+        services.AddSingleton<ChatSubscriptions>();
 
         return services;
     }

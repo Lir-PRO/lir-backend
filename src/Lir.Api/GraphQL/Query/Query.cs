@@ -1,5 +1,6 @@
 ﻿using Modules.Posts.Endpoints.GraphQL.Queries;
 using Modules.Users.Endpoints.GraphQL.Queries;
+using Modules.Chats.Endpoints.GraphQL.Queries;
 
 namespace Lir.Api.GraphQL.Query;
 
@@ -10,17 +11,19 @@ public class Query
     public CommentQuery Comment { get; set; }
     public UserQuery User { get; set; }
     public SubscriptionQuery Subscription { get; set; }
+    public ChatQuery Chat { get; set; }
 
     public Query(PostQuery post, 
         CategoryQuery category,
         CommentQuery comment, 
         UserQuery user, 
-        SubscriptionQuery subscription)
+        SubscriptionQuery subscription, ChatQuery chat)
     {
         Post = post;
         Category = category;
         Comment = comment;
         User = user;
         Subscription = subscription;
+        Chat = chat;
     }
 }
